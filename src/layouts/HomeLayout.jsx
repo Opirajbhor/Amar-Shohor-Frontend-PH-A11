@@ -4,14 +4,15 @@ import Footer from "../components/Footer/Footer";
 import { Outlet } from "react-router";
 
 const HomeLayout = () => {
-  return <>
-  <Navbar></Navbar>
-  <Outlet></Outlet>
-  <Footer></Footer>
-  
-  
-  
-  </>;
+  return (
+    <>
+      <div className="lg:max-w-[1440px] mx-auto ">
+        <Navbar></Navbar>
+        <Outlet></Outlet>
+        <Footer></Footer>
+      </div>
+    </>
+  );
 };
 
 export default HomeLayout;
