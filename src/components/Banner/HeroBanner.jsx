@@ -9,7 +9,7 @@ const HeroBanner = () => {
       <div class="max-w-screen-xl mx-auto px-4 py-20 grid lg:grid-cols-12 gap-10">
         <div class="lg:col-span-7 flex flex-col justify-center">
           <h1 class="text-4xl md:text-6xl font-extrabold text-gray-900 dark:text-white leading-tight">
-            Amar Shohor –
+            Amar Shohor – <br />
             <span class="text-green-600 dark:text-green-400">
               Your City, Your Voice
             </span>
@@ -24,7 +24,7 @@ const HeroBanner = () => {
           <div class="flex flex-col sm:flex-row gap-4 mt-10">
             {PrimaryButton({
               link: "/all-issues",
-              name: "Start Exploring",
+              name: "View All Issues",
             })}
             {SecondaryButton({
               link: "/",
