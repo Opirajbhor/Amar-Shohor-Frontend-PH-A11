@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router";
+import PrimaryButton from "../../utils/Buttons/PrimaryButton";
+import LoginButtons from "../../utils/Buttons/LoginButtons";
 
 const Navbar = () => {
   // navlinks array
@@ -61,14 +63,17 @@ const Navbar = () => {
       {/* navlinks here */}
 
       <div className="lg:flex items-center gap-5 md:flex hidden">
-        {navLinks.map((link) => (
-          <Link to={link.path}>{link.name}</Link>
+        {navLinks.map((link, index) => (
+          <Link key={index} to={link.path}>{link.name}</Link>
         ))}
       </div>
 
       {/* right side section */}
-      <div className="flex">
+      <div className="flex gap-3">
         {/* Profile and other links---------------------------------------------------------- */}
+        <LoginButtons></LoginButtons>
+           
+
         <div className="dropdown dropdown-end">
           <div
             tabIndex={0}
@@ -131,8 +136,8 @@ const Navbar = () => {
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
             >
               <div className="grid grid-cols-1 items-center gap-5">
-                {navLinks.map((link) => (
-                  <Link to={link.path}>{link.name}</Link>
+                {navLinks.map((link,index) => (
+                  <Link key={index} to={link.path}>{link.name}</Link>
                 ))}
               </div>
             </ul>

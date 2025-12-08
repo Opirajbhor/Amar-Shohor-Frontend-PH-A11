@@ -6,6 +6,7 @@ import TinyCards from '../../components/TinyCards/TinyCards';
 const HomePage = () => {
     return (
         <div>
+            
             <HeroBanner></HeroBanner>
             <TinyCards></TinyCards>
             <IssueCard></IssueCard>
