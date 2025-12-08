@@ -1,38 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import SearchFilter from "../SearchFilter/SearchFilter";
+import { getAllIssues } from "../../ApiCalls/ApiCall";
 
-// Sample data
-const issues = [
-  {
-    id: 1,
-    title: "Broken Street Light",
-    description:
-      "The street light near Kalyanpur Market is not working since last week.",
-    location: "Kalyanpur, Dhaka",
-    category: "Street Light",
-    status: "Pending",
-    image: "https://via.placeholder.com/400x250.png?text=Street+Light",
-  },
-  {
-    id: 2,
-    title: "Overflowing Drain",
-    description: "Drainage clogged after last night’s rain.",
-    location: "Dhanmondi, Dhaka",
-    category: "Drainage",
-    status: "In Progress",
-    image: "https://via.placeholder.com/400x250.png?text=Drainage",
-  },
-  {
-    id: 3,
-    title: "Water Leakage",
-    description: "Water pipe leakage causing water logging on road.",
-    location: "Mirpur, Dhaka",
-    category: "Water",
-    status: "Completed",
-    image: "https://via.placeholder.com/400x250.png?text=Water",
-  },
-  // Add more issues as needed
-];
+
+const url = import.meta.env.VITE_API_URL
 
 const statusColors = {
   Pending: "bg-yellow-200 text-yellow-800",
@@ -40,10 +11,11 @@ const statusColors = {
   Completed: "bg-green-200 text-green-800",
 };
 
-const IssueCard = () => {
+const IssueCard = ({issues}) => {
+ 
   return (
     <div className="max-w-7xl mx-auto p-6">
-      <h2 className="text-3xl text-center mt-5 font-bold mb-6">Reported Issues</h2>
+      
       <SearchFilter></SearchFilter>
 
       <div className="grid gap-6 mt-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
