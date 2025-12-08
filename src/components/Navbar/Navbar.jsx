@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router";
 import PrimaryButton from "../../utils/Buttons/PrimaryButton";
 import LoginButtons from "../../utils/Buttons/LoginButtons";
+import Logo from "../../utils/Logo/Logo";
 
 const Navbar = () => {
   // navlinks array
@@ -26,36 +27,10 @@ const Navbar = () => {
   //   -----------------
 
   return (
-    <div className="flex items-center justify-between pt-5">
+    <div className="flex  items-center justify-between pt-5">
       {/* left side section */}
       {/* tittle and logo start----------------------------------------- */}
-      <div className="flex">
-  <style>
-    {`
-      @keyframes shineMove {
-        0% { background-position: 0% 50%; }
-        50% { background-position: 100% 50%; }
-        100% { background-position: 0% 50%; }
-      }
-    `}
-  </style>
-
-  <Link to="/" className="font-bold text-[34px] tracking-wide">
-    <span
-      className="
-        text-transparent
-        bg-clip-text
-        bg-gradient-to-r
-        from-green-500 via-green-100 to-green-600
-        bg-[length:250%_250%]
-        animate-[shineMove_4s_ease-in-out_infinite]
-        drop-shadow-[0_0_4px_rgba(0,255,0,0.3)]
-      "
-    >
-      AmarShohor
-    </span>
-  </Link>
-</div>
+      <Logo></Logo>
 
 
       {/* tittle and logo ends----------------------------------------- */}
