@@ -9,8 +9,11 @@ import Login from "../pages/AuthPage/Login";
 import Registration from "../pages/AuthPage/Registration";
 import About_Us from "../pages/OtherPages/About_Us";
 import Contact_Us from "../pages/OtherPages/Contact_Us";
+import Dashboard from "../pages/Dashboard/Dashboard";
+import DashboardLayout from "../layouts/DashboardLayout";
 
 const router = createBrowserRouter([
+  // main routes
   {
     path: "/",
     element: <HomeLayout></HomeLayout>,
@@ -38,8 +41,20 @@ const router = createBrowserRouter([
       },
     ],
   },
+  // auth routes, login and registration
   { path: "/login", element: <Login></Login> },
   { path: "/registration", element: <Registration></Registration> },
+  // dashboard routes
+  {
+    path: "/dashboard",
+    element: <DashboardLayout></DashboardLayout>,
+    children: [
+      {
+        index: true,
+        element: <Dashboard></Dashboard>,
+      },
+    ],
+  },
 ]);
 
 export default router;
