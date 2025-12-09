@@ -23,6 +23,10 @@ const Navbar = () => {
       path: "/contact-us",
       name: "Contact Us",
     },
+    {
+      path: "/dashboard",
+      name: "Dashboard",
+    },
   ];
   //   -----------------
 
