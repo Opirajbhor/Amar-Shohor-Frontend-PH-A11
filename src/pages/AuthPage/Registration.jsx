@@ -1,19 +1,47 @@
 // File: Signup.jsx
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router";
-
+import { Link, useLocation, useNavigate } from "react-router";
 import Logo from "../../utils/Logo/Logo";
+import { toast, ToastContainer } from "react-toastify";
+import useAuth from "../../Hooks/useAuth";
 
 const Registration = () => {
+  const {
+    user,
+    setUser,
+    loading,
+    setLoading,
+    createUser,
+    signIn,
+    signInWithGoogle,
+    logOut,
+    updateUserProfile,
+  } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state || "/";
+
+  // react hook form
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const submitData = (data) => {
-    console.log(data.name, data.email, data.password);
+  // if (loading) return LargeLoading;
+  // if (user) return <Navigate to={from} replace={true} />;
+  const submitData = async (data) => {
+    const { name, email, password } = data;
+    try {
+      const result = await createUser(email, password);
+      await updateUserProfile(name);
+      toast.success("Registration Successfull!");
+      navigate(from);
+    } catch (err) {
+      console.log(err);
+      toast.error("Registration error");
+    }
   };
 
   return (
@@ -132,6 +160,7 @@ const Registration = () => {
           />
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

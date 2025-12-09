@@ -1,4 +1,16 @@
 import React from "react";
+import { BsExclamationTriangle } from "react-icons/bs";
+import { FaUserFriends } from "react-icons/fa";
+import { GrUserWorker } from "react-icons/gr";
+import { ImProfile } from "react-icons/im";
+import { IoHomeOutline } from "react-icons/io5";
+import {
+  MdNearbyError,
+  MdOutlineBugReport,
+  MdOutlineDashboardCustomize,
+  MdPayment,
+} from "react-icons/md";
+import { PiUsersFour } from "react-icons/pi";
 import { Link } from "react-router";
 
 const DashboardSidebar = () => {
@@ -6,80 +18,72 @@ const DashboardSidebar = () => {
     {
       path: "/dashboard",
       name: "Dashboard",
-      iconLink: "",
+      iconLink: <MdOutlineDashboardCustomize className="size-6" />,
     },
     {
       path: "/",
       name: "Homepage",
-      iconLink: "",
+      iconLink: <IoHomeOutline className="size-6" />,
     },
     {
       path: "/All-Issues",
       name: "All Issues",
-      iconLink: "",
+      iconLink: <BsExclamationTriangle className="size-6" />,
     },
     {
       path: "/Manage-users",
       name: "Manage Users",
-      iconLink: "",
+      iconLink: <PiUsersFour className="size-6" />,
     },
     {
       path: "/Manage-staffs",
       name: "Manage Staffs",
-      iconLink: "",
+      iconLink: <FaUserFriends className="size-6" />,
     },
     {
       path: "/Payments",
       name: "Payments",
-      iconLink: "",
+      iconLink: <MdPayment className="size-6" />,
     },
     {
       path: "/my-issues",
       name: "My Issues",
-      iconLink: "",
+      iconLink: <MdNearbyError className="size-6" />,
     },
     {
       path: "/report-issue",
       name: "Report Issue",
-      iconLink: "",
+      iconLink: <MdOutlineBugReport className="size-6" />,
     },
     {
       path: "/my-profile",
       name: "Profile",
-      iconLink: "",
+      iconLink: <ImProfile className="size-6" />,
     },
     {
       path: "/Assigned-issues",
       name: "Assigned issues",
-      iconLink: "",
+      iconLink: <GrUserWorker className="size-6" />,
     },
   ];
   return (
     <div className="menu w-full grow mt-13">
       <ul>
         {/* List item */}
-        {dashboardLinks.map((link) => (
-          <li>
+        {dashboardLinks.map((link,i) => (
+          <li key={i}>
             <Link
               to={link.path}
-              className="is-drawer-close:tooltip is-drawer-close:tooltip-right"
-              data-tip="Homepage"
+              className="flex items-center gap-2 is-drawer-close:tooltip is-drawer-close:tooltip-right
+               mb-2 hover:bg-green-300 hover:text-gray-800"
+              data-tip={link.name}
             >
               {/* Home icon */}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                strokeLinejoin="round"
-                strokeLinecap="round"
-                strokeWidth="2"
-                fill="none"
-                stroke="currentColor"
-                className="my-1.5 inline-block size-5"
-              >
-                <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
-                <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-              </svg>
-              <span className="is-drawer-close:hidden">{link.name}</span>
+              {link.iconLink}
+
+              <span className="is-drawer-close:hidden text-[18px]">
+                {link.name}
+              </span>
             </Link>
           </li>
         ))}

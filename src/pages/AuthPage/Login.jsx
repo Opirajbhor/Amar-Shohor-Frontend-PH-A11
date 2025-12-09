@@ -1,17 +1,48 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import Logo from "../../utils/Logo/Logo";
-import { Link } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
+import useAuth from "../../Hooks/useAuth";
+import { LargeLoading } from "../../utils/Loading/Loading";
+import { toast, ToastContainer } from "react-toastify";
 
 const Login = () => {
+  const {
+    user,
+    setUser,
+    loading,
+    setLoading,
+    createUser,
+    signIn,
+    signInWithGoogle,
+    logOut,
+    updateUserProfile,
+  } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state || "/";
+
+  // react hook form
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
-  const submitData = (data) => {
+  // if (loading) return LargeLoading;
+  // if (user) return <Navigate to={from} replace={true} />;
+  const submitData = async (data) => {
     console.log(data.name, data.email, data.password);
+    const { name, email, password } = data;
+    try {
+      const result = await createUser(email, password);
+      await updateUserProfile(name);
+      toast.success("Success message!");
+      console.log("result", result);
+    } catch (err) {
+      console.log(err);
+      toast.error("sign up error");
+    }
   };
   return (
     <div className="min-h-screen flex items-center justify-center  px-4">
@@ -78,9 +109,9 @@ const Login = () => {
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-green-500 text-white font-semibold py-3 rounded-lg hover:bg-green-600 transition-all shadow"
+              className="w-full bg-green-500 text-white font-semibold py-3 rounded-lg hover:bg-green-600 transition-all shadow cursor-pointer"
             >
-              Sign Up
+              Sign In
             </button>
           </form>
 
@@ -112,6 +143,7 @@ const Login = () => {
           </p>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

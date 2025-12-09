@@ -59,7 +59,7 @@ const Dashboard = () => {
 
         <div className="bg-white shadow-md p-5 rounded-lg">
           <h2 className="text-gray-500">Total Issues</h2>
-          <p className="text-3xl font-bold mt-2">{stats.totalIssues}</p>
+          <p className="text-3xl text-gray-800 font-bold mt-2">{stats.totalIssues}</p>
         </div>
 
         <div className="bg-yellow-100 shadow-md p-5 rounded-lg">

@@ -3,6 +3,9 @@ import { Link } from "react-router";
 import PrimaryButton from "../../utils/Buttons/PrimaryButton";
 import LoginButtons from "../../utils/Buttons/LoginButtons";
 import Logo from "../../utils/Logo/Logo";
+import useAuth from "../../Hooks/useAuth";
+import { CiUser } from "react-icons/ci";
+import DashboardButton from "../../utils/Buttons/DashboardButton";
 
 const Navbar = () => {
   // navlinks array
@@ -23,19 +26,16 @@ const Navbar = () => {
       path: "/contact-us",
       name: "Contact Us",
     },
-    {
-      path: "/dashboard",
-      name: "Dashboard",
-    },
   ];
   //   -----------------
-
+  const { user } = useAuth();
+  console.log(user);
+  const noUserPhoto = <CiUser />;
   return (
     <div className="flex  items-center justify-between pt-5">
       {/* left side section */}
       {/* tittle and logo start----------------------------------------- */}
       <Logo></Logo>
-
 
       {/* tittle and logo ends----------------------------------------- */}
       {/* middle section */}
@@ -43,17 +43,22 @@ const Navbar = () => {
 
       <div className="lg:flex items-center gap-5 md:flex hidden">
         {navLinks.map((link, index) => (
-          <Link key={index} to={link.path}>{link.name}</Link>
+          <Link key={index} to={link.path}>
+            {link.name}
+          </Link>
         ))}
       </div>
 
       {/* right side section */}
       <div className="flex gap-3">
         {/* Profile and other links---------------------------------------------------------- */}
-        <LoginButtons></LoginButtons>
-           
+        {user ? (
+          DashboardButton({ link: "/dashboard", name: "Dashboard" })
+        ) : (
+          <LoginButtons></LoginButtons>
+        )}
 
-        <div className="dropdown dropdown-end">
+        <div className="dropdown dropdown-end flex">
           <div
             tabIndex={0}
             role="button"
@@ -62,7 +67,7 @@ const Navbar = () => {
             <div className="w-10 rounded-full">
               <img
                 alt="Tailwind CSS Navbar component"
-                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                src={user?.photoURL || noUserPhoto}
               />
             </div>
           </div>
@@ -70,6 +75,9 @@ const Navbar = () => {
             tabIndex="-1"
             className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
           >
+            <li className="text-right text-gray-400 mb-2">
+              {user?.displayName}
+            </li>
             <li>
               <a className="justify-between">
                 Profile
@@ -115,8 +123,10 @@ const Navbar = () => {
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
             >
               <div className="grid grid-cols-1 items-center gap-5">
-                {navLinks.map((link,index) => (
-                  <Link key={index} to={link.path}>{link.name}</Link>
+                {navLinks.map((link, index) => (
+                  <Link key={index} to={link.path}>
+                    {link.name}
+                  </Link>
                 ))}
               </div>
             </ul>
