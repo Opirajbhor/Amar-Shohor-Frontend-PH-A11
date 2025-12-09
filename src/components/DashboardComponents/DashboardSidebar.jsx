@@ -41,17 +41,17 @@ const DashboardSidebar = () => {
       iconLink: <FaUserFriends className="size-6" />,
     },
     {
-      path: "/Payments",
+      path: "/dashboard/Payments",
       name: "Payments",
       iconLink: <MdPayment className="size-6" />,
     },
     {
-      path: "/my-issues",
+      path: "/dashboard/my-issues",
       name: "My Issues",
       iconLink: <MdNearbyError className="size-6" />,
     },
     {
-      path: "/report-issue",
+      path: "/dashboard/report-issue",
       name: "Report Issue",
       iconLink: <MdOutlineBugReport className="size-6" />,
     },
@@ -70,7 +70,7 @@ const DashboardSidebar = () => {
     <div className="menu w-full grow mt-13">
       <ul>
         {/* List item */}
-        {dashboardLinks.map((link,i) => (
+        {dashboardLinks.map((link, i) => (
           <li key={i}>
             <Link
               to={link.path}

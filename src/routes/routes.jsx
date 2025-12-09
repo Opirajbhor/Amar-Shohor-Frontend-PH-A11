@@ -4,12 +4,12 @@ import HomeLayout from "../layouts/HomeLayout";
 import ErrorPage from "../pages/ErrorPage";
 import HomePage from "../pages/Homepage/HomePage";
 import All_Issues from "../pages/Issues/All_Issues";
-import My_Issues from "../pages/Issues/My_Issues";
 import Login from "../pages/AuthPage/Login";
 import Registration from "../pages/AuthPage/Registration";
 import About_Us from "../pages/OtherPages/About_Us";
 import Contact_Us from "../pages/OtherPages/Contact_Us";
 import Dashboard from "../pages/Dashboard/Dashboard";
+import My_Issues from "../pages/Dashboard/My_Issues";
 import DashboardLayout from "../layouts/DashboardLayout";
 import PrivateRoute from "./PrivateRoute";
 
@@ -53,6 +53,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <Dashboard></Dashboard>,
+      },
+      {
+        path: "/dashboard/my-issues",
+        element: <My_Issues></My_Issues>,
       },
     ],
   },
