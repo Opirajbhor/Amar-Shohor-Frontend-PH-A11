@@ -1,6 +1,17 @@
 import React from "react";
+import useAuth from "../../Hooks/useAuth";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router";
 
 const DashboardNavbar = () => {
+  const navigate = useNavigate();
+  const { user, logOut } = useAuth();
+  const handleLogOut = async () => {
+    logOut();
+    await toast.success("logout succesfull");
+    navigate("/login");
+  };
+
   return (
     <div className="flex gap-2">
       <input
@@ -15,10 +26,7 @@ const DashboardNavbar = () => {
           className="btn btn-ghost btn-circle avatar"
         >
           <div className="w-10 rounded-full">
-            <img
-              alt="Tailwind CSS Navbar component"
-              src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
-            />
+            <img alt={user?.displayName} src={user?.photoURL} />
           </div>
         </div>
         <ul
@@ -31,11 +39,9 @@ const DashboardNavbar = () => {
               <span className="badge">New</span>
             </a>
           </li>
+
           <li>
-            <a>Settings</a>
-          </li>
-          <li>
-            <a>Logout</a>
+            <a onClick={handleLogOut}>Logout</a>
           </li>
         </ul>
       </div>

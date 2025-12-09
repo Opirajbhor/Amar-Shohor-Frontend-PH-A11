@@ -1,13 +1,15 @@
 import React from "react";
-import { Link } from "react-router";
-import PrimaryButton from "../../utils/Buttons/PrimaryButton";
+import { Link, useNavigate } from "react-router";
 import LoginButtons from "../../utils/Buttons/LoginButtons";
 import Logo from "../../utils/Logo/Logo";
 import useAuth from "../../Hooks/useAuth";
 import { CiUser } from "react-icons/ci";
 import DashboardButton from "../../utils/Buttons/DashboardButton";
+import { toast, ToastContainer } from "react-toastify";
 
 const Navbar = () => {
+  const navigate = useNavigate();
+
   // navlinks array
   const navLinks = [
     {
@@ -28,19 +30,22 @@ const Navbar = () => {
     },
   ];
   //   -----------------
-  const { user } = useAuth();
-  console.log(user);
+  const { user, logOut } = useAuth();
   const noUserPhoto = <CiUser />;
+
+  const handleLogOut = async () => {
+    logOut();
+    await toast.success("logout succesfull");
+    navigate("/login");
+  };
   return (
-    <div className="flex  items-center justify-between pt-5">
+    <div className="flex items-center justify-between pt-5">
       {/* left side section */}
       {/* tittle and logo start----------------------------------------- */}
       <Logo></Logo>
-
       {/* tittle and logo ends----------------------------------------- */}
-      {/* middle section */}
-      {/* navlinks here */}
 
+      {/* nav links */}
       <div className="lg:flex items-center gap-5 md:flex hidden">
         {navLinks.map((link, index) => (
           <Link key={index} to={link.path}>
@@ -50,48 +55,53 @@ const Navbar = () => {
       </div>
 
       {/* right side section */}
-      <div className="flex gap-3">
+      <div className="flex items-center  gap-3">
         {/* Profile and other links---------------------------------------------------------- */}
-        {user ? (
-          DashboardButton({ link: "/dashboard", name: "Dashboard" })
-        ) : (
-          <LoginButtons></LoginButtons>
+        <div>
+          {user ? (
+            DashboardButton({ link: "/dashboard", name: "Dashboard" })
+          ) : (
+            <LoginButtons></LoginButtons>
+          )}
+        </div>
+
+        {/* profile */}
+
+        {user && (
+          <div className="dropdown dropdown-end flex">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-ghost btn-circle avatar"
+            >
+              <div className="w-10 rounded-full">
+                <img
+                  alt={user.displayName}
+                  src={user?.photoURL || noUserPhoto}
+                />
+              </div>
+            </div>
+            <ul
+              tabIndex="-1"
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+            >
+              <li className="text-right text-gray-400 mb-2">
+                {user?.displayName}
+              </li>
+              <li>
+                <a className="justify-between">
+                  Profile
+                  <span className="badge">New</span>
+                </a>
+              </li>
+
+              <li>
+                <a onClick={handleLogOut}>Logout</a>
+              </li>
+            </ul>
+          </div>
         )}
 
-        <div className="dropdown dropdown-end flex">
-          <div
-            tabIndex={0}
-            role="button"
-            className="btn btn-ghost btn-circle avatar"
-          >
-            <div className="w-10 rounded-full">
-              <img
-                alt="Tailwind CSS Navbar component"
-                src={user?.photoURL || noUserPhoto}
-              />
-            </div>
-          </div>
-          <ul
-            tabIndex="-1"
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
-          >
-            <li className="text-right text-gray-400 mb-2">
-              {user?.displayName}
-            </li>
-            <li>
-              <a className="justify-between">
-                Profile
-                <span className="badge">New</span>
-              </a>
-            </li>
-            <li>
-              <a>Settings</a>
-            </li>
-            <li>
-              <a>Logout</a>
-            </li>
-          </ul>
-        </div>
         {/* profile ends------------------------------------------------------------------- */}
 
         {/* hambarger start--------------------------------------------------- */}
@@ -133,6 +143,7 @@ const Navbar = () => {
           </div>
         </div>
         {/* hambarger end--------------------------------------------------- */}
+        <ToastContainer />
       </div>
     </div>
   );

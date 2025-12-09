@@ -1,7 +1,7 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import Logo from "../../utils/Logo/Logo";
-import { Link, useLocation, useNavigate } from "react-router";
+import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import useAuth from "../../Hooks/useAuth";
 import { LargeLoading } from "../../utils/Loading/Loading";
 import { toast, ToastContainer } from "react-toastify";
@@ -29,19 +29,17 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  // if (loading) return LargeLoading;
-  // if (user) return <Navigate to={from} replace={true} />;
+  if (loading) return LargeLoading;
+  if (user) return <Navigate to={from} replace={true} />;
   const submitData = async (data) => {
-    console.log(data.name, data.email, data.password);
-    const { name, email, password } = data;
+    const { email, password } = data;
     try {
-      const result = await createUser(email, password);
-      await updateUserProfile(name);
-      toast.success("Success message!");
-      console.log("result", result);
+      await signIn(email, password);
+      await toast.success("Success Login!");
+      navigate("/dashboard");
     } catch (err) {
       console.log(err);
-      toast.error("sign up error");
+      toast.error("sign in error");
     }
   };
   return (
