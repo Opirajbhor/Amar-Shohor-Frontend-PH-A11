@@ -11,6 +11,7 @@ import About_Us from "../pages/OtherPages/About_Us";
 import Contact_Us from "../pages/OtherPages/Contact_Us";
 import Dashboard from "../pages/Dashboard/Dashboard";
 import DashboardLayout from "../layouts/DashboardLayout";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
   // main routes
@@ -28,10 +29,6 @@ const router = createBrowserRouter([
         element: <All_Issues></All_Issues>,
       },
       {
-        path: "/my-issues",
-        element: <My_Issues></My_Issues>,
-      },
-      {
         path: "/about-us",
         element: <About_Us></About_Us>,
       },
@@ -47,7 +44,11 @@ const router = createBrowserRouter([
   // dashboard routes
   {
     path: "/dashboard",
-    element: <DashboardLayout></DashboardLayout>,
+    element: (
+      <PrivateRoute>
+        <DashboardLayout></DashboardLayout>
+      </PrivateRoute>
+    ),
     children: [
       {
         index: true,
