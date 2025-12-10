@@ -12,6 +12,7 @@ import Dashboard from "../pages/Dashboard/Dashboard";
 import My_Issues from "../pages/Dashboard/My_Issues";
 import DashboardLayout from "../layouts/DashboardLayout";
 import PrivateRoute from "./PrivateRoute";
+import Report_Issue from "../pages/Dashboard/Report_Issue";
 
 const router = createBrowserRouter([
   // main routes
@@ -44,11 +45,7 @@ const router = createBrowserRouter([
   // dashboard routes
   {
     path: "/dashboard",
-    element: (
-      <PrivateRoute>
-        <DashboardLayout></DashboardLayout>
-      </PrivateRoute>
-    ),
+    element: <DashboardLayout></DashboardLayout>,
     children: [
       {
         index: true,
@@ -57,6 +54,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/my-issues",
         element: <My_Issues></My_Issues>,
+      },
+      {
+        path: "/dashboard/report-issue",
+        element: <Report_Issue></Report_Issue>,
       },
     ],
   },
