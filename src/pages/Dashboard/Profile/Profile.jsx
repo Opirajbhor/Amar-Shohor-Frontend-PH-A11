@@ -1,21 +1,16 @@
 import React, { useState } from "react";
+import useAuth from "../../../Hooks/useAuth";
 
 const Profile = () => {
-  const [user, setUser] = useState({
-    name: "Opi Rajbhor",
-    email: "opi@example.com",
-    isPremium: false,
-    isBlocked: false,
-    photo: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
-  });
+  const { user, logOut } = useAuth();
 
-  const [photoPreview, setPhotoPreview] = useState(user.photo);
+  const [photoPreview, setPhotoPreview] = useState(user?.photoURL);
   const [openModal, setOpenModal] = useState(false);
 
   // Modal Form Fields
-  const [formName, setFormName] = useState(user.name);
-  const [formEmail, setFormEmail] = useState(user.email);
-  const [formPhoto, setFormPhoto] = useState(user.photo);
+  const [formName, setFormName] = useState(user?.name);
+  const [formEmail, setFormEmail] = useState(user?.email);
+  const [formPhoto, setFormPhoto] = useState(user?.photo);
 
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
@@ -54,25 +49,25 @@ const Profile = () => {
 
           {/* Name & Email */}
           <h1 className="text-2xl font-bold flex items-center gap-2">
-            {user.name}
-            {user.isPremium && (
+            {user?.displayName}
+            {user?.isPremium && (
               <span className="px-2 py-1 text-sm bg-yellow-500 text-white rounded-md">
                 Premium
               </span>
             )}
           </h1>
 
-          <p className="text-gray-600">{user.email}</p>
+          <p className="text-gray-600">{user?.email}</p>
 
           {/* Blocked Warning */}
-          {user.isBlocked && (
+          {user?.isBlocked && (
             <div className="bg-red-100 text-red-700 p-3 rounded-md w-full text-center font-semibold">
               Your account is blocked. Please contact the authorities.
             </div>
           )}
 
           {/* Update Profile Button */}
-          {!user.isBlocked && (
+          {!user?.isBlocked && (
             <button
               onClick={() => setOpenModal(true)}
               className="px-5 py-2 bg-green-600 text-white rounded-md font-semibold hover:bg-green-700 transition"
@@ -83,7 +78,7 @@ const Profile = () => {
         </div>
 
         {/* Subscription Section */}
-        {!user.isPremium && !user.isBlocked && (
+        {!user?.isPremium && !user?.isBlocked && (
           <div className="mt-8 p-6  border rounded-lg text-center">
             <h3 className="text-lg font-semibold mb-2">
               Become a Premium User

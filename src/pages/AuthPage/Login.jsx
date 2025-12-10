@@ -121,7 +121,7 @@ const Login = () => {
           </div>
 
           {/* Google Login */}
-          <button className="flex items-center justify-center gap-3 w-full border border-gray-300 rounded-lg py-3 hover:bg-green-100 hover:text-black cursor-pointer transition-all">
+          <button onClick={signInWithGoogle} className="flex items-center justify-center gap-3 w-full border border-gray-300 rounded-lg py-3 hover:bg-green-100 hover:text-black cursor-pointer transition-all">
             <img
               src="https://www.svgrepo.com/show/355037/google.svg"
               alt="Google"
