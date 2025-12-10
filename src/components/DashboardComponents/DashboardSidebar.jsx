@@ -56,7 +56,7 @@ const DashboardSidebar = () => {
       iconLink: <MdOutlineBugReport className="size-6" />,
     },
     {
-      path: "/my-profile",
+      path: "/dashboard/profile",
       name: "Profile",
       iconLink: <ImProfile className="size-6" />,
     },

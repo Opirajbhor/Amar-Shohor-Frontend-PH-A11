@@ -13,6 +13,7 @@ import My_Issues from "../pages/Dashboard/My_Issues";
 import DashboardLayout from "../layouts/DashboardLayout";
 import PrivateRoute from "./PrivateRoute";
 import Report_Issue from "../pages/Dashboard/Report_Issue";
+import Profile from "../pages/Dashboard/Profile/Profile";
 
 const router = createBrowserRouter([
   // main routes
@@ -58,6 +59,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/report-issue",
         element: <Report_Issue></Report_Issue>,
+      },
+      {
+        path: "/dashboard/profile",
+        element: <Profile></Profile>
       },
     ],
   },
