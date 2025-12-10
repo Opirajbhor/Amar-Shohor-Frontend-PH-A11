@@ -7,7 +7,7 @@ const All_Issues = () => {
   const [issues, setIssues] = useState(null);
 
   getAllIssues({
-    url: "/users",
+    url: "/all-issues",
     setData: setIssues,
   });
   if (issues === null) {
@@ -16,7 +16,7 @@ const All_Issues = () => {
   return (
     <div>
       <h1 className="text-center font-bold text-3xl mt-5">
-        All Issues ({issues.length})
+        All Issues ({issues?.length})
       </h1>
       <IssueCard issues={issues}></IssueCard>
     </div>

@@ -1,12 +1,34 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import toast, { Toaster } from "react-hot-toast";
+import useAuth from "../../Hooks/useAuth";
+import { useNavigate } from "react-router";
 
 const Report_Issue = () => {
+  const axiosSecure = useAxiosSecure();
   const { register, handleSubmit } = useForm();
   const [previewImg, setPreviewImg] = useState("");
+  const { user } = useAuth();
+  const navigate = useNavigate();
 
-  const submitData = (data) => {
-    console.log("Reported Data:", data);
+  // send form data to backend by post method
+  const reportIssueData = async (data) => {
+    try {
+      await axiosSecure.post("/all-issues", {
+        title: data.title,
+        description: data.description,
+        location: data.location,
+        category: data.category,
+        status: "Pending",
+        email: user.email,
+        image: data?.image || "",
+      });
+      await toast.success("Issue Reported Succesfully");
+      navigate("/dashboard/my-issues");
+    } catch (err) {
+      toast.error("Problem with reporting Issue", err);
+    }
   };
 
   // Handle image preview
@@ -24,7 +46,7 @@ const Report_Issue = () => {
           Report an Issue
         </h2>
 
-        <form onSubmit={handleSubmit(submitData)} className="space-y-6">
+        <form onSubmit={handleSubmit(reportIssueData)} className="space-y-6">
           {/* TITLE */}
           <div>
             <label className="block text-gray-400 font-medium mb-1">
@@ -60,8 +82,10 @@ const Report_Issue = () => {
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:ring-2 focus:ring-green-500 text-gray-700"
               {...register("category")}
             >
-              <option value="">Select category</option>
-              <option value="road">Road Problem</option>
+              <option value="" disabled>
+                Select category
+              </option>
+              <option value="road_problem">Road Problem</option>
               <option value="drainage">Drainage / Sewer</option>
               <option value="electricity">Electricity Issue</option>
               <option value="water">Water Supply</option>
@@ -114,6 +138,7 @@ const Report_Issue = () => {
           </button>
         </form>
       </div>
+      <Toaster />
     </div>
   );
 };
