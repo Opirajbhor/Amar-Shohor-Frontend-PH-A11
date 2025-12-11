@@ -14,6 +14,7 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import PrivateRoute from "./PrivateRoute";
 import Report_Issue from "../pages/Dashboard/Report_Issue";
 import Profile from "../pages/Dashboard/Profile/Profile";
+import IssueDetailsPage from "../pages/IssueDetails/IssueDetailspage";
 
 const router = createBrowserRouter([
   // main routes
@@ -29,6 +30,10 @@ const router = createBrowserRouter([
       {
         path: "/all-issues",
         element: <All_Issues></All_Issues>,
+      },
+      {
+        path: "/all-issues/:id",
+        element: <IssueDetailsPage></IssueDetailsPage>,
       },
       {
         path: "/about-us",
@@ -62,7 +67,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/dashboard/profile",
-        element: <Profile></Profile>
+        element: <Profile></Profile>,
       },
     ],
   },

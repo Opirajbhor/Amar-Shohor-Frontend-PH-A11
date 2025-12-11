@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import SearchFilter from "../SearchFilter/SearchFilter";
 import { getAllIssues } from "../../ApiCalls/ApiCall";
+import { Link } from "react-router";
 
-
-const url = import.meta.env.VITE_API_URL
+const url = import.meta.env.VITE_API_URL;
 
 const statusColors = {
   Pending: "bg-yellow-200 text-yellow-800",
@@ -11,11 +11,9 @@ const statusColors = {
   Completed: "bg-green-200 text-green-800",
 };
 
-const IssueCard = ({issues}) => {
- 
+const IssueCard = ({ issues }) => {
   return (
     <div className="max-w-7xl mx-auto p-6">
-      
       <SearchFilter></SearchFilter>
 
       <div className="grid gap-6 mt-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
@@ -83,9 +81,13 @@ const IssueCard = ({issues}) => {
               </div>
 
               {/* View Details Button */}
-              <button className="mt-4 px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl transition">
+              <Link
+                to={issue._id}
+                state={{issue}}
+                className="mt-4 px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl transition"
+              >
                 View Details
-              </button>
+              </Link>
             </div>
           </div>
         ))}

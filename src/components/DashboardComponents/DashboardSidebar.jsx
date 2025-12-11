@@ -25,26 +25,7 @@ const DashboardSidebar = () => {
       name: "Homepage",
       iconLink: <IoHomeOutline className="size-6" />,
     },
-    {
-      path: "/All-Issues",
-      name: "All Issues",
-      iconLink: <BsExclamationTriangle className="size-6" />,
-    },
-    {
-      path: "/Manage-users",
-      name: "Manage Users",
-      iconLink: <PiUsersFour className="size-6" />,
-    },
-    {
-      path: "/Manage-staffs",
-      name: "Manage Staffs",
-      iconLink: <FaUserFriends className="size-6" />,
-    },
-    {
-      path: "/dashboard/Payments",
-      name: "Payments",
-      iconLink: <MdPayment className="size-6" />,
-    },
+    
     {
       path: "/dashboard/my-issues",
       name: "My Issues",
@@ -56,14 +37,14 @@ const DashboardSidebar = () => {
       iconLink: <MdOutlineBugReport className="size-6" />,
     },
     {
+      path: "/dashboard/Payments",
+      name: "Payments",
+      iconLink: <MdPayment className="size-6" />,
+    },
+    {
       path: "/dashboard/profile",
       name: "Profile",
       iconLink: <ImProfile className="size-6" />,
-    },
-    {
-      path: "/Assigned-issues",
-      name: "Assigned issues",
-      iconLink: <GrUserWorker className="size-6" />,
     },
   ];
   return (

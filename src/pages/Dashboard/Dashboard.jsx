@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,6 +11,8 @@ import {
 } from "chart.js";
 import { Bar, Pie } from "react-chartjs-2";
 import useAuth from "../../Hooks/useAuth";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import { SmallLoading } from "../../utils/Loading/Loading";
 
 ChartJS.register(
   CategoryScale,
@@ -21,6 +24,33 @@ ChartJS.register(
 );
 
 const Dashboard = () => {
+  const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
+  const [userData, setUserData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  // ALL ISSUES GET--------------------------------
+  useEffect(() => {
+    setLoading(true);
+    axiosSecure
+      .get("/all-issues")
+      .then((res) => {
+        const filtered = res.data.filter((data) => data?.email === user?.email);
+        setUserData(filtered);
+        setLoading(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        setUserData([]);
+        setLoading(false);
+      });
+  }, [axiosSecure, user]);
+  const pendingIssues = userData.filter((data) => data.status === "Pending");
+  const inProgressIssues = userData.filter(
+    (data) => data.status === "In Progress"
+  );
+  const resolvedIssues = userData.filter((data) => data.status === "Resolved");
+  if (loading) return <SmallLoading />;
+
   // Example numbers (replace with API data)
   const stats = {
     totalIssues: 320,
@@ -58,30 +88,30 @@ const Dashboard = () => {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 mb-8">
         <div className="bg-white shadow-md p-5 rounded-lg">
-          <h2 className="text-gray-500">Total Issues</h2>
+          <h2 className="text-gray-500">Total Issues Submited</h2>
           <p className="text-3xl text-gray-800 font-bold mt-2">
-            {stats.totalIssues}
+            {userData?.length}
           </p>
         </div>
 
         <div className="bg-yellow-100 shadow-md p-5 rounded-lg">
           <h2 className="text-gray-700">Pending</h2>
           <p className="text-3xl font-bold mt-2 text-yellow-600">
-            {stats.pending}
+            {pendingIssues?.length}
           </p>
         </div>
 
         <div className="bg-blue-100 shadow-md p-5 rounded-lg">
           <h2 className="text-gray-700">In Progress</h2>
           <p className="text-3xl font-bold mt-2 text-blue-600">
-            {stats.inProgress}
+            {inProgressIssues?.length}
           </p>
         </div>
 
         <div className="bg-green-100 shadow-md p-5 rounded-lg">
           <h2 className="text-gray-700">Resolved</h2>
           <p className="text-3xl font-bold mt-2 text-green-600">
-            {stats.resolved}
+            {resolvedIssues?.length}
           </p>
         </div>
 

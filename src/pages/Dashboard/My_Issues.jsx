@@ -6,8 +6,8 @@ import useAuth from "../../Hooks/useAuth";
 const My_Issues = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
-
   const [userData, setUserData] = useState([]);
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -30,7 +30,9 @@ const My_Issues = () => {
 
   return (
     <div>
-      <h1 className="text-2xl text-center my-3 font-bold ">My Issues()</h1>
+      <h1 className="text-2xl text-center my-3 font-bold ">
+        My Issues({userData.length})
+      </h1>
       {userData.length === 0 ? (
         <p className="text-center my-3">No issues found.</p>
       ) : (
@@ -42,19 +44,27 @@ const My_Issues = () => {
                 <th>Issue Title</th>
                 <th>Category</th>
                 <th>Location</th>
+                <th>Details</th>
                 <th>Edit</th>
-                <th>Remove</th>
+                <th>Delete</th>
               </tr>
             </thead>
             <tbody>
               {userData.map((data, index) => (
-                <tr key={index}>
+                <tr className="mb-2" key={index}>
                   <th>{index + 1}</th>
                   <td>{data.title}</td>
                   <td>{data.category}</td>
                   <td>{data.location}</td>
-                  <td className="btn">Edit</td>
-                  <td>Delete</td>
+                  <td>
+                    <button className="btn btn-active btn-info">Details</button>
+                  </td>
+                  <td>
+                    <button className="btn btn-active btn-warning">Edit</button>
+                  </td>
+                  <td>
+                    <button className="btn btn-active btn-error">Delete</button>
+                  </td>
                 </tr>
               ))}
             </tbody>
