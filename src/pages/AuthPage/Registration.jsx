@@ -5,6 +5,10 @@ import { Link, useLocation, useNavigate } from "react-router";
 import Logo from "../../utils/Logo/Logo";
 import { toast, ToastContainer } from "react-toastify";
 import useAuth from "../../Hooks/useAuth";
+import {
+  imageUpload,
+  saveOrUpdateUser,
+} from "../../utils/PhotoUpload/photoUpload";
 
 const Registration = () => {
   const {
@@ -32,12 +36,17 @@ const Registration = () => {
   // if (loading) return LargeLoading;
   // if (user) return <Navigate to={from} replace={true} />;
   const submitData = async (data) => {
-    const { name, email, password } = data;
+    const { name, image, email, password } = data;
+    const imgFile = image[0];
     try {
+      const imageURL = await imageUpload(imgFile);
       const result = await createUser(email, password);
       await updateUserProfile(name);
-      toast.success("Registration Successfull!");
-      navigate(from);
+      await saveOrUpdateUser({ name, imageURL, email, role:'Citizen' });
+      await updateUserProfile(name, imageURL);
+      navigate(from, { replace: true });
+      toast.success("Signup Successful");
+       console.log(result)
     } catch (err) {
       console.log(err);
       toast.error("Registration error");
@@ -87,6 +96,31 @@ const Registration = () => {
                   {errors.email.message}
                 </p>
               )}
+            </div>
+            {/* Image */}
+            <div>
+              <label htmlFor="image" className=" text-white-700 font-medium">
+                Profile Image
+              </label>
+              <input
+                name="image"
+                type="file"
+                id="image"
+                accept="image/*"
+                className="block w-full text-sm text-gray-500
+      file:mr-4 file:py-2 file:px-4
+      file:rounded-md file:border-0
+      file:text-sm file:font-semibold
+      file:bg-lime-50 file:text-lime-700
+      hover:file:bg-lime-100
+       border border-dashed  rounded-md cursor-pointer
+      focus:outline-none focus:ring-2 
+      py-2"
+                {...register("image")}
+              />
+              <p className="mt-1 text-xs text-gray-400">
+                PNG, JPG or JPEG (max 2MB)
+              </p>
             </div>
 
             {/* Password */}

@@ -89,10 +89,10 @@ const Navbar = () => {
                 {user?.displayName}
               </li>
               <li>
-                <a className="justify-between">
+                <Link to='/dashboard/profile'  className="justify-between">
                   Profile
                   <span className="badge">New</span>
-                </a>
+                </Link>
               </li>
 
               <li>
