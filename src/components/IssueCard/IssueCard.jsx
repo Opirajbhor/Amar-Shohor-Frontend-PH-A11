@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import SearchFilter from "../SearchFilter/SearchFilter";
-import { getAllIssues } from "../../ApiCalls/ApiCall";
 import { Link } from "react-router";
 
-const url = import.meta.env.VITE_API_URL;
 
 const statusColors = {
   Pending: "bg-yellow-200 text-yellow-800",
@@ -17,14 +15,14 @@ const IssueCard = ({ issues }) => {
       <SearchFilter></SearchFilter>
 
       <div className="grid gap-6 mt-3 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
-        {issues.map((issue) => (
+        {issues.map((issue, index) => (
           <div
-            key={issue.id}
+            key={index}
             className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition flex flex-col"
           >
             {/* Image */}
             <img
-              src={issue.image}
+              src={issue?.image}
               alt={issue.title}
               className="w-full h-48 object-cover"
             />

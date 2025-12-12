@@ -13,6 +13,8 @@ import { Bar, Pie } from "react-chartjs-2";
 import useAuth from "../../Hooks/useAuth";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { SmallLoading } from "../../utils/Loading/Loading";
+import { toast } from "react-toastify";
+import { useMutation, useQueries, useQuery } from "@tanstack/react-query";
 
 ChartJS.register(
   CategoryScale,
@@ -28,22 +30,23 @@ const Dashboard = () => {
   const { user } = useAuth();
   const [userData, setUserData] = useState([]);
   const [loading, setLoading] = useState(true);
-  // ALL ISSUES GET--------------------------------
-  useEffect(() => {
-    setLoading(true);
-    axiosSecure
-      .get("/all-issues")
-      .then((res) => {
-        const filtered = res.data.filter((data) => data?.email === user?.email);
-        setUserData(filtered);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setUserData([]);
-        setLoading(false);
+  // ALL USER ISSUES GET--------------------------------
+  const { data, isLoading, error } = useQuery({
+    queryKey: ["user-issues", user?.email],
+    queryFn: async () => {
+      const res = await axiosSecure("/user-issues", {
+        params: {
+          email: 'Broken Street Light',
+        },
       });
-  }, [axiosSecure, user]);
+      setUserData(res.data);
+      setLoading(false)
+      return res.data;
+    },
+    enabled: !!user?.email,
+  });
+  console.log("tanstak fetch", data);
+
   const pendingIssues = userData.filter((data) => data.status === "Pending");
   const inProgressIssues = userData.filter(
     (data) => data.status === "In Progress"

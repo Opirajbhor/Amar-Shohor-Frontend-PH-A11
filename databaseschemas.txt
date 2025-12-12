@@ -1,0 +1,45 @@
+-----Users Schema------
+{
+email : '',
+name : '',
+role : '',
+photoURL : '',
+isPremium : '',
+isBlocked : '',
+createdAt   : '',
+},
+
+--------Issues Collection-------
+{
+title : "",
+description : "",
+category : "",
+imageURL : "",
+location : "",
+reportedBy : "",
+status : "",
+priority : "",
+upvoteCount : "",
+assignedTo : "",
+createdAt : "",
+},
+
+----------Timelines Collection--------
+{
+issueId	 : "",
+status : "",
+messageOrNote : "",
+updatedByRole : "",
+updatedByEmail : "",
+dateAndTime : "",
+},
+
+-------Payments Collection-------
+{
+transactionId : "",
+payerEmail : "",
+amount : "",
+type : "",
+issueId : "",
+paymentDate : "",
+},

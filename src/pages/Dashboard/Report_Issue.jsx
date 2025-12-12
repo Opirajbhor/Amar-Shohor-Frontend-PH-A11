@@ -4,6 +4,8 @@ import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import toast, { Toaster } from "react-hot-toast";
 import useAuth from "../../Hooks/useAuth";
 import { useNavigate } from "react-router";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { imageUpload } from "../../utils/PhotoUpload/photoUpload";
 
 const Report_Issue = () => {
   const axiosSecure = useAxiosSecure();
@@ -13,22 +15,37 @@ const Report_Issue = () => {
   const navigate = useNavigate();
 
   // send form data to backend by post method
+  // const queryClient = useQueryClient();
+  const {
+    mutate: postDataBackend,
+    isSuccess,
+    isPending,
+    isError,
+  } = useMutation({
+    mutationFn: (issueData) => {
+      return axiosSecure.post("/all-issues", issueData);
+    },
+    onSuccess: () => {
+      toast.success("Issue Reported Succesfully");
+    },
+    onError: (err) => {
+      toast.error("Problem with reporting Issue", err.message);
+    },
+  });
+
   const reportIssueData = async (data) => {
-    try {
-      await axiosSecure.post("/all-issues", {
-        title: data.title,
-        description: data.description,
-        location: data.location,
-        category: data.category,
-        status: "Pending",
-        email: user.email,
-        image: data?.image || "",
-      });
-      await toast.success("Issue Reported Succesfully");
-      navigate("/dashboard/my-issues");
-    } catch (err) {
-      toast.error("Problem with reporting Issue", err);
-    }
+    const imgFile = data.image[0];
+    const imageURL = await imageUpload(imgFile);
+    const issueData = {
+      title: data.title,
+      // email: user.email || "",
+      description: data.description,
+      location: data.location,
+      category: data.category,
+      image: imageURL || "",
+    };
+    console.log(issueData);
+    postDataBackend(issueData);
   };
 
   // Handle image preview

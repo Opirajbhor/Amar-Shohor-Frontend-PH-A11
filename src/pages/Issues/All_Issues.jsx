@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import IssueCard from "../../components/IssueCard/IssueCard";
 import { getAllIssues } from "../../ApiCalls/ApiCall";
 import { LargeLoading } from "../../utils/Loading/Loading";
@@ -6,12 +6,16 @@ import { LargeLoading } from "../../utils/Loading/Loading";
 const All_Issues = () => {
   const [issues, setIssues] = useState(null);
 
-  getAllIssues({
-    url: "/all-issues",
-    setData: setIssues,
-  });
+  useEffect(() => {
+    getAllIssues({
+      url: "/all-issues",
+      setData: setIssues,
+    });
+
+    console.log(issues)
+  }, []);
   if (issues === null) {
-    return LargeLoading;
+    return <LargeLoading></LargeLoading>;
   }
   return (
     <div>

@@ -1,7 +1,7 @@
 // File: Signup.jsx
 import React from "react";
 import { useForm } from "react-hook-form";
-import { Link, useLocation, useNavigate } from "react-router";
+import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import Logo from "../../utils/Logo/Logo";
 import { toast, ToastContainer } from "react-toastify";
 import useAuth from "../../Hooks/useAuth";
@@ -9,8 +9,11 @@ import {
   imageUpload,
   saveOrUpdateUser,
 } from "../../utils/PhotoUpload/photoUpload";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import { LargeLoading } from "../../utils/Loading/Loading";
 
 const Registration = () => {
+  const axiosSecure = useAxiosSecure();
   const {
     user,
     setUser,
@@ -33,8 +36,7 @@ const Registration = () => {
     formState: { errors },
   } = useForm();
 
-  // if (loading) return LargeLoading;
-  // if (user) return <Navigate to={from} replace={true} />;
+
   const submitData = async (data) => {
     const { name, image, email, password } = data;
     const imgFile = image[0];
@@ -42,16 +44,36 @@ const Registration = () => {
       const imageURL = await imageUpload(imgFile);
       const result = await createUser(email, password);
       await updateUserProfile(name);
-      await saveOrUpdateUser({ name, imageURL, email, role:'Citizen' });
+      await saveOrUpdateUser({ name, imageURL, email, role: "Citizen" });
       await updateUserProfile(name, imageURL);
       navigate(from, { replace: true });
       toast.success("Signup Successful");
-       console.log(result)
+      console.log(result);
     } catch (err) {
       console.log(err);
       toast.error("Registration error");
     }
   };
+
+  // google signup
+  // google login
+
+  const signUpWithGoogle = async () => {
+    try {
+      const result = await signInWithGoogle();
+      const userData = {
+        name: result.user.displayName,
+        imageURL: result.user.photoURL,
+        email: result.user.email,
+      };
+      await axiosSecure.post("/google-users", userData);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  if (loading) return <LargeLoading></LargeLoading>;
+
+  if (user) return <Navigate to={from} replace={true} />;
 
   return (
     <div className="min-h-screen flex items-center justify-center  px-4">
@@ -165,8 +187,7 @@ const Registration = () => {
           {/* Google Login */}
           <button
             onClick={() => {
-              signInWithGoogle();
-              navigate("/dashboard");
+              signUpWithGoogle();
             }}
             className="flex items-center justify-center gap-3 w-full border border-gray-300 rounded-lg py-3 hover:bg-green-100 hover:text-black cursor-pointer transition-all"
           >

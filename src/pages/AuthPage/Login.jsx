@@ -5,8 +5,11 @@ import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import useAuth from "../../Hooks/useAuth";
 import { LargeLoading } from "../../utils/Loading/Loading";
 import { toast, ToastContainer } from "react-toastify";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 const Login = () => {
+  const axiosSecure = useAxiosSecure();
+
   const {
     user,
     setUser,
@@ -29,8 +32,7 @@ const Login = () => {
     formState: { errors },
   } = useForm();
 
-  if (loading) return LargeLoading;
-  if (user) return <Navigate to={from} replace={true} />;
+  // email pass login
   const submitData = async (data) => {
     const { email, password } = data;
     try {
@@ -42,6 +44,25 @@ const Login = () => {
       toast.error("sign in error");
     }
   };
+
+  // google login
+  const loginWithGoogle = async () => {
+    try {
+      const result = await signInWithGoogle();
+      const userData = {
+        name: result.user.displayName,
+        imageURL: result.user.photoURL,
+        email: result.user.email,
+      };
+      await axiosSecure.post("/google-users", userData);
+
+      
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  if (loading) return <LargeLoading></LargeLoading>;
+  if (user) return <navigate to={from} replace={true} />;
   return (
     <div className="min-h-screen flex items-center justify-center  px-4">
       <div className=" shadow-xl rounded-2xl flex w-full max-w-5xl overflow-hidden">
@@ -121,7 +142,10 @@ const Login = () => {
           </div>
 
           {/* Google Login */}
-          <button onClick={signInWithGoogle} className="flex items-center justify-center gap-3 w-full border border-gray-300 rounded-lg py-3 hover:bg-green-100 hover:text-black cursor-pointer transition-all">
+          <button
+            onClick={loginWithGoogle}
+            className="flex items-center justify-center gap-3 w-full border border-gray-300 rounded-lg py-3 hover:bg-green-100 hover:text-black cursor-pointer transition-all"
+          >
             <img
               src="https://www.svgrepo.com/show/355037/google.svg"
               alt="Google"
