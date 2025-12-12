@@ -36,19 +36,25 @@ const Registration = () => {
     formState: { errors },
   } = useForm();
 
-
   const submitData = async (data) => {
     const { name, image, email, password } = data;
     const imgFile = image[0];
     try {
+      // image upload to imgBB
       const imageURL = await imageUpload(imgFile);
-      const result = await createUser(email, password);
-      await updateUserProfile(name);
-      await saveOrUpdateUser({ name, imageURL, email, role: "Citizen" });
-      await updateUserProfile(name, imageURL);
+      // firebase account create
+     const {user} =  await createUser(email, password);
+      await updateUserProfile(user, name, imageURL);
+      const userData = {
+        name: name,
+        imageURL: imageURL,
+        email: user.email,
+      };
+
+      await axiosSecure.post("/user", userData);
+
       navigate(from, { replace: true });
       toast.success("Signup Successful");
-      console.log(result);
     } catch (err) {
       console.log(err);
       toast.error("Registration error");

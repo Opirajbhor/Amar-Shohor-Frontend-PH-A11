@@ -62,7 +62,7 @@ const Login = () => {
     }
   };
   if (loading) return <LargeLoading></LargeLoading>;
-  if (user) return <navigate to={from} replace={true} />;
+  if (user) return <Navigate to={from} replace={true} />;
   return (
     <div className="min-h-screen flex items-center justify-center  px-4">
       <div className=" shadow-xl rounded-2xl flex w-full max-w-5xl overflow-hidden">
