@@ -5,10 +5,7 @@ import { Link, Navigate, useLocation, useNavigate } from "react-router";
 import Logo from "../../utils/Logo/Logo";
 import { toast, ToastContainer } from "react-toastify";
 import useAuth from "../../Hooks/useAuth";
-import {
-  imageUpload,
-  saveOrUpdateUser,
-} from "../../utils/PhotoUpload/photoUpload";
+import { imageUpload } from "../../utils/PhotoUpload/photoUpload";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 import { LargeLoading } from "../../utils/Loading/Loading";
 
@@ -43,7 +40,7 @@ const Registration = () => {
       // image upload to imgBB
       const imageURL = await imageUpload(imgFile);
       // firebase account create
-     const {user} =  await createUser(email, password);
+      const { user } = await createUser(email, password);
       await updateUserProfile(user, name, imageURL);
       const userData = {
         name: name,

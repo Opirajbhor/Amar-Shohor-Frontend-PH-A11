@@ -13,10 +13,14 @@ const My_Issues = () => {
   useEffect(() => {
     setLoading(true);
     axiosSecure
-      .get("/all-issues")
+      .get("/user-issues", {
+        headers: {
+          email: user?.email,
+        },
+      })
       .then((res) => {
-        const filtered = res.data.filter((data) => data?.email === user?.email);
-        setUserData(filtered);
+        setUserData(res.data);
+        console.log(res.data);
         setLoading(false);
       })
       .catch((err) => {
