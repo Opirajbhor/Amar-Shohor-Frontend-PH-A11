@@ -6,7 +6,11 @@ import { Link } from "react-router";
 import { useForm } from "react-hook-form";
 import toast, { Toaster } from "react-hot-toast";
 import { imageUpload } from "../../utils/PhotoUpload/photoUpload";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { MdEditNote, MdOutlineDelete } from "react-icons/md";
+import { IoMdInformationCircleOutline } from "react-icons/io";
+import Swal from "sweetalert2";
+
 // issue status color className
 const statusStyle = {
   Pending: "badge badge-warning",
@@ -20,50 +24,56 @@ const My_Issues = () => {
 
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
-  const [userData, setUserData] = useState([]);
-
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    setLoading(true);
-    axiosSecure
-      .get("/user-issues", {
+  const { data: userData = [], refetch } = useQuery({
+    queryKey: ["user-issues", user?.email],
+    enabled: !!user?.email,
+    queryFn: async () => {
+      setLoading(true);
+      const res = await axiosSecure.get("/user-issues", {
         headers: {
           email: user?.email,
         },
-      })
-      .then((res) => {
-        setUserData(res.data);
-        console.log(res.data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        setUserData([]);
-        setLoading(false);
       });
-  }, [axiosSecure, user]);
-
-  // tanstack update data
-  const {
-    mutate: updateDataBackend,
-    isSuccess,
-    isPending,
-    isError,
-  } = useMutation({
-    mutationFn: (updateIssueData) => {
-      const issueId = updateIssueData.id;
-
-      return axiosSecure.patch(`/all-issues/${issueId}`, updateIssueData);
-    },
-    onSuccess: () => {
-      toast.success("Issue Updated Succesfully");
-    },
-    onError: (err) => {
-      toast.error("Problem with Updating Issue :" + err.message);
+      setLoading(false);
+      return res.data;
     },
   });
+
+  // update data
+  const updateDataBackend = async (issueItem) => {
+    const issueId = issueItem._id;
+    const result = await Swal.fire({
+      title: "Are you sure?",
+      text: "Do you want to update this issue?",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, update it!",
+    });
+    if (!result.isConfirmed) return;
+    try {
+      const res = await axiosSecure.patch(`/all-issues/${issueId}`, issueItem);
+      if (res.data?.modifiedCount > 0) {
+        Swal.fire({
+          title: "Updated!",
+          text: "Issue has been updated successfully.",
+          icon: "success",
+        });
+      }
+    } catch (error) {
+      Swal.fire({
+        title: "Error!",
+        text: "Failed to update issue.",
+        icon: "error",
+      });
+    }
+  };
+
   const reportIssueData = async (data) => {
-    const currentId = data._id;
+    const currentId = data.id;
     const imgFile = data.image[0];
     if (imgFile) {
       const imageURL = await imageUpload(imgFile);
@@ -75,12 +85,10 @@ const My_Issues = () => {
         category: data.category,
         image: imageURL,
       };
-      console.log(issueData);
       updateDataBackend(issueData);
     } else {
       const issueData = {
         _id: currentId,
-
         title: data.title,
         description: data.description,
         location: data.location,
@@ -91,17 +99,30 @@ const My_Issues = () => {
     }
   };
   // delete an issue
-  const { mutate: deleteUserIssue } = useMutation({
-    mutationFn: (id) => {
-      return axiosSecure.delete(`/all-issues/${id}`);
-    },
-    onSuccess: () => {
-      toast.success("Issue Deleted Succesfully");
-    },
-    onError: (err) => {
-      toast.error("Problem with Deleting Issue :" + err.message);
-    },
-  });
+  const handleDeleteIssue = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        console.log(id)
+        axiosSecure.delete(`/all-issues/${id}`).then((res) => {
+          refetch();
+          Swal.fire({
+            title: "Deleted!",
+            text: "Your Issue has been deleted.",
+            icon: "success",
+          });
+        });
+      }
+    });
+  };
+
   if (loading) return <SmallLoading />;
 
   return (
@@ -150,6 +171,7 @@ const My_Issues = () => {
                       state={{ issueData: data }}
                       className="btn btn-active btn-info"
                     >
+                      <IoMdInformationCircleOutline />
                       Details
                     </Link>
                     {/* edit modal here */}
@@ -248,6 +270,12 @@ const My_Issues = () => {
                                 {...register("location")}
                               />
                             </div>
+                            {/* only for id collect */}
+                            <input
+                              type="hidden"
+                              value={data._id}
+                              {...register("id")}
+                            />
 
                             {/* SUBMIT */}
                             <button
@@ -275,16 +303,16 @@ const My_Issues = () => {
                       }
                       className="btn btn-active btn-warning"
                     >
-                      Edit
+                      <MdEditNote />
                     </button>
                   </td>
                   {/* delete */}
                   <td>
                     <button
-                      onClick={() => deleteUserIssue(data._id)}
+                      onClick={() => handleDeleteIssue(data._id)}
                       className="btn btn-active btn-error"
                     >
-                      Delete
+                      <MdOutlineDelete />
                     </button>
                   </td>
                 </tr>
