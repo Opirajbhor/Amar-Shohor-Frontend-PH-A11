@@ -25,6 +25,7 @@ const Report_Issue = () => {
       return axiosSecure.post("/all-issues", issueData);
     },
     onSuccess: () => {
+      navigate("/dashboard/my-issues");
       toast.success("Issue Reported Succesfully");
     },
     onError: (err) => {
@@ -37,13 +38,12 @@ const Report_Issue = () => {
     const imageURL = await imageUpload(imgFile);
     const issueData = {
       title: data.title,
-      // email: user.email || "",
+      email: user.email || "",
       description: data.description,
       location: data.location,
       category: data.category,
       image: imageURL || "",
     };
-    console.log(issueData);
     postDataBackend(issueData);
   };
 

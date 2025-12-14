@@ -15,6 +15,8 @@ import PrivateRoute from "./PrivateRoute";
 import Report_Issue from "../pages/Dashboard/Report_Issue";
 import Profile from "../pages/Dashboard/Profile/Profile";
 import IssueDetailsPage from "../pages/IssueDetails/IssueDetailspage";
+import Boost from "../pages/Dashboard/Boost/Boost";
+import Payment from "../pages/Dashboard/Payment/Payment";
 
 const router = createBrowserRouter([
   // main routes
@@ -68,6 +70,14 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/profile",
         element: <Profile></Profile>,
+      },
+      {
+        path: "/dashboard/boost/:id",
+        Component: Boost,
+      },
+      {
+        path: "/dashboard/payments",
+        Component: Payment,
       },
     ],
   },
