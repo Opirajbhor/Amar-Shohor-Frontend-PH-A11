@@ -3,9 +3,9 @@ import { useLocation } from "react-router";
 
 export default function IssueDetails() {
   const fromLocation = useLocation();
-  const { issue } = fromLocation.state || {};
+  const issue = fromLocation?.state?.issueData || {};
   const { title, description, location, category, image, status } = issue;
-  console.log(issue);
+  
 
   return (
     <div className="p-6 max-w-5xl mx-auto space-y-8">
@@ -42,9 +42,7 @@ export default function IssueDetails() {
 
         <div className="mt-6">
           <p className="text-sm text-gray-500">Description</p>
-          <p className="mt-1">
-            {description}
-          </p>
+          <p className="mt-1">{description}</p>
         </div>
 
         {/* BOOST BUTTON */}

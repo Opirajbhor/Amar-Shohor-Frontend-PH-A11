@@ -30,20 +30,20 @@ const Dashboard = () => {
   const { user } = useAuth();
   const [userData, setUserData] = useState([]);
   const [loading, setLoading] = useState(true);
+
   // ALL USER ISSUES GET--------------------------------
   const { data, isLoading, error } = useQuery({
     queryKey: ["user-issues", user?.email],
     queryFn: async () => {
       const res = await axiosSecure("/user-issues", {
-        params: {
-          email: 'Broken Street Light',
+        headers: {
+          email: user?.email,
         },
       });
       setUserData(res.data);
       setLoading(false)
       return res.data;
     },
-    enabled: !!user?.email,
   });
   console.log("tanstak fetch", data);
 

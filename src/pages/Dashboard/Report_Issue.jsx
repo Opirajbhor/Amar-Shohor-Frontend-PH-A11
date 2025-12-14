@@ -15,7 +15,6 @@ const Report_Issue = () => {
   const navigate = useNavigate();
 
   // send form data to backend by post method
-  // const queryClient = useQueryClient();
   const {
     mutate: postDataBackend,
     isSuccess,
