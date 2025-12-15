@@ -16,7 +16,8 @@ import Report_Issue from "../pages/Dashboard/Report_Issue";
 import Profile from "../pages/Dashboard/Profile/Profile";
 import IssueDetailsPage from "../pages/IssueDetails/IssueDetailspage";
 import Boost from "../pages/Dashboard/Boost/Boost";
-import Payment from "../pages/Dashboard/Payment/Payment";
+import payment_success from "../pages/Dashboard/Payment/payment_success";
+import payment_cancel from "../pages/Dashboard/Payment/payment_cancel";
 
 const router = createBrowserRouter([
   // main routes
@@ -76,8 +77,12 @@ const router = createBrowserRouter([
         Component: Boost,
       },
       {
-        path: "/dashboard/payments",
-        Component: Payment,
+        path: "/dashboard/payment-success",
+        Component: payment_success,
+      },
+      {
+        path: "/dashboard/payment-cancel",
+        Component: payment_cancel,
       },
     ],
   },
