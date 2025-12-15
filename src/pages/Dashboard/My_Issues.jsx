@@ -42,6 +42,7 @@ const My_Issues = () => {
     },
   });
 
+  console.log(userData)
   // update button data state conditon
   const reportIssueData = async (data) => {
     console.log("edit button", data);
@@ -161,8 +162,8 @@ const My_Issues = () => {
                   </td>
 
                   <td>
-                    {data.isBosted ? (
-                      <span className="badge badge-primary">Paid</span>
+                    {data.isBoosted ? (
+                      <span className="badge badge-secondary font-bold">Paid</span>
                     ) : (
                       <Link
                         to={`/dashboard/boost/${data._id}`}
