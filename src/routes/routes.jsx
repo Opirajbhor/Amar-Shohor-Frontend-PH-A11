@@ -18,6 +18,7 @@ import IssueDetailsPage from "../pages/IssueDetails/IssueDetailspage";
 import Boost from "../pages/Dashboard/Boost/Boost";
 import Payment_success from "../pages/Dashboard/Payment/Payment_success";
 import payment_cancel from "../pages/Dashboard/Payment/payment_cancel";
+import Payments from "../pages/Dashboard/Payment/Payments";
 
 const router = createBrowserRouter([
   // main routes
@@ -79,6 +80,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/payment-success",
         Component: Payment_success,
+      },
+      {
+        path: "/dashboard/payments",
+        Component: Payments,
       },
       {
         path: "/dashboard/payment-cancel",

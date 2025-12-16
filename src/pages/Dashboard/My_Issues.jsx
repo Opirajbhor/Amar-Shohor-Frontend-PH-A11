@@ -42,13 +42,10 @@ const My_Issues = () => {
     },
   });
 
-  console.log(userData)
   // update button data state conditon
   const reportIssueData = async (data) => {
-    console.log("edit button", data);
     const currentId = data.id;
     const imgFile = data.image?.[0];
-    console.log(imgFile);
     const issueData = {
       _id: currentId,
       title: data.title,
@@ -63,7 +60,7 @@ const My_Issues = () => {
           const imageURL = await imageUpload(imgFile);
           issueData.image = imageURL;
         } catch {
-          console.log(issueData);
+          console.log("error");
         }
       }
     }
@@ -86,12 +83,8 @@ const My_Issues = () => {
   };
   // update button data post conditon
   const updateDataBackend = async (issueItem) => {
-    console.log("updated", issueItem);
-
     const issueId = issueItem._id;
-    console.log("updated", issueId);
     const res = await axiosSecure.patch(`/all-issues/${issueId}`, issueItem);
-    console.log("updated", res);
   };
   // delete button condition
   const handleDeleteIssue = (id) => {
@@ -105,7 +98,6 @@ const My_Issues = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        console.log(id);
         axiosSecure.delete(`/all-issues/${id}`).then((res) => {
           refetch();
           Swal.fire({
@@ -163,7 +155,9 @@ const My_Issues = () => {
 
                   <td>
                     {data.isBoosted ? (
-                      <span className="badge badge-secondary font-bold">Paid</span>
+                      <span className="badge badge-secondary font-bold">
+                        Paid
+                      </span>
                     ) : (
                       <Link
                         to={`/dashboard/boost/${data._id}`}
@@ -192,13 +186,10 @@ const My_Issues = () => {
                     <button
                       disabled={data?.status !== "Pending"}
                       onClick={() => {
-                        console.log("itemEdit 1", itemEdit);
                         setItemEdit(data);
                         setTimeout(() => {
                           reset(data);
                           document.getElementById("my_modal_5").showModal();
-
-                          console.log("itemEdit 2", itemEdit);
                         }, 100);
                       }}
                       className="btn btn-active cursor-pointer btn-warning"

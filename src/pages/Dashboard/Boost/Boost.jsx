@@ -14,11 +14,12 @@ const Boost = () => {
       return res.data;
     },
   });
+  console.log("boost issue---->", issue)
 
   const handleBoost = async () => {
     const paymentInfo = {
       issueId: issue._id,
-      email: issue.email,
+      email: issue.reportedBy,
       title: issue.title,
     };
 
