@@ -21,6 +21,8 @@ import payment_cancel from "../pages/Dashboard/Payment/payment_cancel";
 import Payments from "../pages/Dashboard/Payment/Payments";
 import Manage_Issues from "../pages/Dashboard/Admin_Dashboard/Manage_Issues";
 import Manage_Users from "../pages/Dashboard/Admin_Dashboard/Manage_Users";
+import Manage_Staff from "../pages/Dashboard/Admin_Dashboard/Manage_Staff";
+import All_payments from "../pages/Dashboard/Admin_Dashboard/all_payments";
 
 const router = createBrowserRouter([
   // main routes
@@ -99,6 +101,14 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/manage-users",
         Component: Manage_Users,
+      },
+      {
+        path: "/dashboard/manage-staff",
+        Component: Manage_Staff,
+      },
+      {
+        path: "/dashboard/all-payments",
+        Component: All_payments,
       },
     ],
   },

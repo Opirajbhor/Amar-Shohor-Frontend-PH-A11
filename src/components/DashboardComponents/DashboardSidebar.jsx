@@ -11,7 +11,7 @@ import {
   MdOutlineDashboardCustomize,
   MdPayment,
 } from "react-icons/md";
-import { FaUsersBetweenLines } from "react-icons/fa6";
+import { FaMoneyBillTrendUp, FaUsersBetweenLines } from "react-icons/fa6";
 
 import { PiUsersFour } from "react-icons/pi";
 import { Link } from "react-router";
@@ -59,6 +59,16 @@ const DashboardSidebar = () => {
       path: "/dashboard/manage-users",
       name: "Manage Citizens",
       iconLink: <FaUsersBetweenLines className="size-6" />,
+    },
+    {
+      path: "/dashboard/manage-staff",
+      name: "Manage Staff",
+      iconLink: <FaUserFriends className="size-6" />,
+    },
+    {
+      path: "/dashboard/all-payments",
+      name: "All Payments",
+      iconLink: <FaMoneyBillTrendUp className="size-6" />,
     },
   ];
   return (

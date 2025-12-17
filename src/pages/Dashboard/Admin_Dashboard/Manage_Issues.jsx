@@ -48,7 +48,7 @@ const Manage_Issues = () => {
         <tbody>
           {/* row 1 */}
           {all_Issues.map((issue, index) => (
-            <tr key={index} className="hover:bg-base-300">
+            <tr key={index} className="hover:bg-base-300 mb-3">
               <th>{index + 1}</th>
               <th>{issue?.title}</th>
               <th>{issue?.category}</th>
@@ -56,7 +56,7 @@ const Manage_Issues = () => {
               <th>{issue?.isBoosted ? "High" : "Normal"}</th>
               <th>{issue?.assignedTo}</th>
               <th
-                className="flex items-center gap-3 cursor-pointer border"
+                className="flex items-center gap-3 cursor-pointer "
                 disabled={issue?.assignedTo !== "Not Assigned Yet"}
               >
                 <FaChevronCircleUp /> Assign

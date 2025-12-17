@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router";
 import useAxiosSecure from "../../../Hooks/useAxiosSecure";
 
 const Payment_success = () => {
-  const [payInfo, setPayInfo] = useState();
+  const [payInfo, setPayInfo] = useState(null);
   const [searchParams] = useSearchParams();
   const axiosSecure = useAxiosSecure();
   const sessionId = searchParams.get("session_id");
@@ -13,21 +13,19 @@ const Payment_success = () => {
       axiosSecure
         .patch(`/payment-success?session_id=${sessionId}`)
         .then((res) => {
-          setPayInfo({
-            transactionId: res?.data?.transactionId,
-            paymentInfo: res?.data?.paymentInfo,
-          });
+          setPayInfo(res.data);
         });
     }
-  }, [sessionId, axiosSecure, payInfo]);
+  }, [sessionId, axiosSecure]);
+
+
   return (
     <div>
-      payment-success
-      <div>
-        <h1>Your Transection ID : {payInfo?.transactionId}</h1>
-        <h1>Your Issue Title : {}</h1>
-        <h1>Your Payment Info : {payInfo?.paymentInfo}</h1>
-      </div>
+      <h2>Payment Success</h2>
+
+      <h1>Your Transaction ID: {payInfo?.transactionId}</h1>
+      <h1>Your Issue Title: {payInfo?.issueTitle}</h1>
+      <h1>Amount Paid: {payInfo?.paymentInfo?.amount}</h1>
     </div>
   );
 };
