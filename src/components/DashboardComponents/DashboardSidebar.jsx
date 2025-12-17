@@ -11,6 +11,8 @@ import {
   MdOutlineDashboardCustomize,
   MdPayment,
 } from "react-icons/md";
+import { FaUsersBetweenLines } from "react-icons/fa6";
+
 import { PiUsersFour } from "react-icons/pi";
 import { Link } from "react-router";
 
@@ -50,8 +52,13 @@ const DashboardSidebar = () => {
     // admin dashboard Stuff-----------------
     {
       path: "/dashboard/manage-issues",
-      name: "All Issues",
+      name: "Manage Issues",
       iconLink: <MdAlignHorizontalLeft className="size-6" />,
+    },
+    {
+      path: "/dashboard/manage-users",
+      name: "Manage Citizens",
+      iconLink: <FaUsersBetweenLines className="size-6" />,
     },
   ];
   return (

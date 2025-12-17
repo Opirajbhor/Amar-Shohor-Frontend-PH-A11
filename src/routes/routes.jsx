@@ -20,6 +20,7 @@ import Payment_success from "../pages/Dashboard/Payment/Payment_success";
 import payment_cancel from "../pages/Dashboard/Payment/payment_cancel";
 import Payments from "../pages/Dashboard/Payment/Payments";
 import Manage_Issues from "../pages/Dashboard/Admin_Dashboard/Manage_Issues";
+import Manage_Users from "../pages/Dashboard/Admin_Dashboard/Manage_Users";
 
 const router = createBrowserRouter([
   // main routes
@@ -94,6 +95,10 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/manage-issues",
         Component: Manage_Issues,
+      },
+      {
+        path: "/dashboard/manage-users",
+        Component: Manage_Users,
       },
     ],
   },
