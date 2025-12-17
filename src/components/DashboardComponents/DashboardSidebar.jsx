@@ -5,6 +5,7 @@ import { GrUserWorker } from "react-icons/gr";
 import { ImProfile } from "react-icons/im";
 import { IoHomeOutline } from "react-icons/io5";
 import {
+  MdAlignHorizontalLeft,
   MdNearbyError,
   MdOutlineBugReport,
   MdOutlineDashboardCustomize,
@@ -25,7 +26,7 @@ const DashboardSidebar = () => {
       name: "Homepage",
       iconLink: <IoHomeOutline className="size-6" />,
     },
-    
+
     {
       path: "/dashboard/my-issues",
       name: "My Issues",
@@ -45,6 +46,12 @@ const DashboardSidebar = () => {
       path: "/dashboard/profile",
       name: "Profile",
       iconLink: <ImProfile className="size-6" />,
+    },
+    // admin dashboard Stuff-----------------
+    {
+      path: "/dashboard/manage-issues",
+      name: "All Issues",
+      iconLink: <MdAlignHorizontalLeft className="size-6" />,
     },
   ];
   return (
