@@ -70,8 +70,32 @@ const Manage_Staff = () => {
         title: "Signup Error!",
         icon: "error",
       });
-      refetch()
+      refetch();
     }
+  };
+
+  // handle delete staff button
+  const handleDeleteStaff = async (staff) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete staff!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await axiosSecure.delete(`/staff-delete/${staff._id}`).then((res) => {
+          Swal.fire({
+            title: "Deleted!",
+            text: "Staff has been deleted.",
+            icon: "success",
+          });
+        });
+      }
+    });
+    refetch()
   };
 
   if (loading) return <SmallLoading />;
@@ -125,10 +149,10 @@ const Manage_Staff = () => {
               <td>{staff?.email}</td>
               <td>{staff?.phone}</td>
               <th>
-                <button className="btn btn-ghost ">
-                  <FaArrowUpRightFromSquare />
-                </button>
-                <button className="btn btn-ghost ">
+                <button
+                  onClick={() => handleDeleteStaff(staff)}
+                  className="btn p-2 bg-red-400 "
+                >
                   <MdDelete />
                 </button>
               </th>
@@ -136,7 +160,7 @@ const Manage_Staff = () => {
           ))}
         </tbody>
       </table>
-      {/* Add Staff Modal */}
+      {/* Add Staff Modal---------------------- */}
       <dialog
         id="add_staff_modal"
         className="modal modal-bottom sm:modal-middle"
