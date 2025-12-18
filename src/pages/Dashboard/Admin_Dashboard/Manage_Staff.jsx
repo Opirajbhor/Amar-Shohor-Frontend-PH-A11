@@ -16,11 +16,7 @@ const Manage_Staff = () => {
     enabled: !!user?.email,
     queryFn: async () => {
       setLoading(true);
-      const res = await axiosSecure.get("/manage-staff", {
-        headers: {
-          email: user?.email,
-        },
-      });
+      const res = await axiosSecure.get("/manage-staff");
       setLoading(false);
       return res.data;
     },
