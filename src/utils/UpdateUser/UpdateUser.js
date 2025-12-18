@@ -1,4 +1,3 @@
-import axios from "axios";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
 
 // save or update user in db
