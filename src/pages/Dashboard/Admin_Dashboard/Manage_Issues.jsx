@@ -6,6 +6,7 @@ import { FaChevronCircleUp } from "react-icons/fa";
 import { SmallLoading } from "../../../utils/Loading/Loading";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import { TbPlayerEjectFilled } from "react-icons/tb";
 
 const Manage_Issues = () => {
   const { register, handleSubmit } = useForm();
@@ -37,6 +38,7 @@ const Manage_Issues = () => {
     });
   }, [axiosSecure]);
 
+  // assign staff handle button
   const handleAssignStaff = async (data) => {
     axiosSecure
       .patch(`/all-issues/${currentIssue}`, {
@@ -44,13 +46,38 @@ const Manage_Issues = () => {
       })
       .then((res) => {
         document.getElementById("my_modal_5")?.close();
-          refetch()
+        refetch();
         Swal.fire({
           title: "Assign Succesfull!",
           icon: "success",
           draggable: true,
         });
       });
+  };
+  // reject issue handle button
+  const handleReject = (id) => {
+    console.log(id);
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, reject it!",
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        await axiosSecure.patch(`/all-issues/${id}`, {
+          status: "Rejected",
+        });
+        refetch();
+        Swal.fire({
+          title: "Deleted!",
+          text: "Issue has been rejected.",
+          icon: "success",
+        });
+      }
+    });
   };
 
   if (loading) return <SmallLoading />;
@@ -71,6 +98,7 @@ const Manage_Issues = () => {
             <th>Priority</th>
             <th>Assigned Staff</th>
             <th>Assign</th>
+            <th>Reject</th>
           </tr>
         </thead>
         <tbody>
@@ -83,17 +111,31 @@ const Manage_Issues = () => {
               <th>{issue?.status}</th>
               <th>{issue?.isBoosted ? "High" : "Normal"}</th>
               <th>{issue?.assignedTo}</th>
-              <button
-                onClick={() => {
-                  console.log(issue);
-                  setCurrentIssue(issue._id);
-                  document.getElementById("my_modal_5").showModal();
-                }}
-                className="flex items-center gap-3 cursor-pointer "
-                disabled={issue?.assignedTo !== "Not Assigned Yet"}
-              >
-                <FaChevronCircleUp /> Assign
-              </button>
+              {/* assign button */}
+              <th>
+                <button
+                  onClick={() => {
+                    console.log(issue);
+                    setCurrentIssue(issue._id);
+                    document.getElementById("my_modal_5").showModal();
+                  }}
+                  className="flex items-center gap-3 cursor-pointer "
+                  disabled={issue?.assignedTo !== "Not Assigned Yet" && issue?.status === "Rejected"}
+                >
+                  <FaChevronCircleUp /> Assign
+                </button>
+              </th>
+              {/* reject button */}
+              <th>
+                <button
+                  disabled={issue?.status === "Rejected"}
+                  onClick={() => handleReject(issue._id)}
+                  className="flex items-center cursor-pointer"
+                >
+                  <TbPlayerEjectFilled />
+                  Reject
+                </button>
+              </th>
             </tr>
           ))}
         </tbody>

@@ -23,6 +23,7 @@ import Manage_Issues from "../pages/Dashboard/Admin_Dashboard/Manage_Issues";
 import Manage_Users from "../pages/Dashboard/Admin_Dashboard/Manage_Users";
 import Manage_Staff from "../pages/Dashboard/Admin_Dashboard/Manage_Staff";
 import All_payments from "../pages/Dashboard/Admin_Dashboard/all_payments";
+import Assign_Issues from "../pages/Dashboard/Staff_Dashboard/Assign_Issues";
 
 const router = createBrowserRouter([
   // main routes
@@ -109,6 +110,11 @@ const router = createBrowserRouter([
       {
         path: "/dashboard/all-payments",
         Component: All_payments,
+      },
+      // Staff Dashboard
+      {
+        path: "/dashboard/assign-issues",
+        Component: Assign_Issues,
       },
     ],
   },

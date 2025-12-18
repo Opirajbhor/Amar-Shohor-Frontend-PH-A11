@@ -10,6 +10,7 @@ import {
   MdOutlineBugReport,
   MdOutlineDashboardCustomize,
   MdPayment,
+  MdWorkOutline,
 } from "react-icons/md";
 import { FaMoneyBillTrendUp, FaUsersBetweenLines } from "react-icons/fa6";
 
@@ -69,6 +70,12 @@ const DashboardSidebar = () => {
       path: "/dashboard/all-payments",
       name: "All Payments",
       iconLink: <FaMoneyBillTrendUp className="size-6" />,
+    },
+    // staff dashboard--------
+    {
+      path: "/dashboard/assign-issues",
+      name: "Assign Issues",
+      iconLink: <MdWorkOutline className="size-6" />,
     },
   ];
   return (
