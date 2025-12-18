@@ -24,6 +24,8 @@ import Manage_Users from "../pages/Dashboard/Admin_Dashboard/Manage_Users";
 import Manage_Staff from "../pages/Dashboard/Admin_Dashboard/Manage_Staff";
 import All_payments from "../pages/Dashboard/Admin_Dashboard/all_payments";
 import Assign_Issues from "../pages/Dashboard/Staff_Dashboard/Assign_Issues";
+import Admin_Dashboard from "../pages/Dashboard/Admin_Dashboard/Admin_Dashboard";
+import Staff_Dashboard from "../pages/Dashboard/Staff_Dashboard/Staff_Dashboard";
 
 const router = createBrowserRouter([
   // main routes
@@ -64,7 +66,7 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Dashboard></Dashboard>,
+        Component: Staff_Dashboard,
       },
       {
         path: "/dashboard/my-issues",
