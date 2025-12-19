@@ -62,7 +62,8 @@ const Staff_Dashboard = () => {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6">Admin Dashboard Overview</h1>
+      <h1 className="text-2xl font-bold mb-6">
+        Staff Dashboard Overview</h1>
 
       {/* Stats Cards */}
       <div className="grid mx-auto grid-cols-1 sm:grid-cols-3 gap-5 mb-8">

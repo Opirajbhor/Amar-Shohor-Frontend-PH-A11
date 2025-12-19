@@ -27,7 +27,7 @@ const HeroBanner = () => {
               name: "View All Issues",
             })}
             {SecondaryButton({
-              link: "/",
+              link: "/dashboard/report-issue",
               name: "Report an Issue",
             })}
           </div>

@@ -25,7 +25,7 @@ ChartJS.register(
   Legend
 );
 
-const Dashboard = () => {
+const User_Dashboard = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
   const [userData, setUserData] = useState([]);
@@ -144,4 +144,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default User_Dashboard;

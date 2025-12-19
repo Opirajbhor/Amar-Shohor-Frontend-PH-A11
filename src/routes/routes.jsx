@@ -8,7 +8,7 @@ import Login from "../pages/AuthPage/Login";
 import Registration from "../pages/AuthPage/Registration";
 import About_Us from "../pages/OtherPages/About_Us";
 import Contact_Us from "../pages/OtherPages/Contact_Us";
-import Dashboard from "../pages/Dashboard/Dashboard";
+import Dashboard from "../pages/Dashboard/User_Dashboard";
 import My_Issues from "../pages/Dashboard/My_Issues";
 import DashboardLayout from "../layouts/DashboardLayout";
 import PrivateRoute from "./PrivateRoute";
@@ -26,6 +26,7 @@ import All_payments from "../pages/Dashboard/Admin_Dashboard/all_payments";
 import Assign_Issues from "../pages/Dashboard/Staff_Dashboard/Assign_Issues";
 import Admin_Dashboard from "../pages/Dashboard/Admin_Dashboard/Admin_Dashboard";
 import Staff_Dashboard from "../pages/Dashboard/Staff_Dashboard/Staff_Dashboard";
+import Main_Dashboard from "../pages/Dashboard/Main_Dashboard";
 
 const router = createBrowserRouter([
   // main routes
@@ -62,61 +63,117 @@ const router = createBrowserRouter([
   // dashboard routes
   {
     path: "/dashboard",
-    element: <DashboardLayout></DashboardLayout>,
+    element: (
+      <PrivateRoute>
+        <DashboardLayout></DashboardLayout>
+      </PrivateRoute>
+    ),
     children: [
       {
         index: true,
-        Component: Staff_Dashboard,
+        element: (
+          <PrivateRoute>
+            <Main_Dashboard></Main_Dashboard>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/my-issues",
-        element: <My_Issues></My_Issues>,
+        element: (
+          <PrivateRoute>
+            <My_Issues></My_Issues>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/report-issue",
-        element: <Report_Issue></Report_Issue>,
+        element: (
+          <PrivateRoute>
+            <Report_Issue></Report_Issue>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/profile",
-        element: <Profile></Profile>,
+        element: (
+          <PrivateRoute>
+            <Profile></Profile>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/boost/:id",
-        Component: Boost,
+        element: (
+          <PrivateRoute>
+            <Boost></Boost>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/payment-success",
-        Component: Payment_success,
+        element: (
+          <PrivateRoute>
+            <Payment_success></Payment_success>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/payments",
-        Component: Payments,
+        element: (
+          <PrivateRoute>
+            <Payments></Payments>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/payment-cancel",
-        Component: payment_cancel,
+        element: (
+          <PrivateRoute>
+            <payment_cancel></payment_cancel>
+          </PrivateRoute>
+        ),
       },
       // admin dashboard-------------------------------
       {
         path: "/dashboard/manage-issues",
-        Component: Manage_Issues,
+        element: (
+          <PrivateRoute>
+            <Manage_Issues></Manage_Issues>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/manage-users",
-        Component: Manage_Users,
+        element: (
+          <PrivateRoute>
+            <Manage_Users></Manage_Users>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/manage-staff",
-        Component: Manage_Staff,
+        element: (
+          <PrivateRoute>
+            <Manage_Staff></Manage_Staff>
+          </PrivateRoute>
+        ),
       },
       {
         path: "/dashboard/all-payments",
-        Component: All_payments,
+        element: (
+          <PrivateRoute>
+            <All_payments></All_payments>
+          </PrivateRoute>
+        ),
       },
       // Staff Dashboard
       {
         path: "/dashboard/assign-issues",
-        Component: Assign_Issues,
+        element: (
+          <PrivateRoute>
+            <Assign_Issues></Assign_Issues>
+          </PrivateRoute>
+        ),
       },
     ],
   },

@@ -41,7 +41,7 @@ const Registration = () => {
       const imageURL = await imageUpload(imgFile);
       // firebase account create
       const { user } = await createUser(email, password);
-      await updateUserProfile(user, name, imageURL);
+      await updateUserProfile(name, imageURL);
       const userData = {
         name: name,
         imageURL: imageURL,
@@ -53,7 +53,6 @@ const Registration = () => {
       navigate(from, { replace: true });
       toast.success("Signup Successful");
     } catch (err) {
-      console.log(err);
       toast.error("Registration error");
     }
   };
@@ -71,7 +70,6 @@ const Registration = () => {
       };
       await axiosSecure.post("/google-users", userData);
     } catch (err) {
-      console.log(err);
     }
   };
   if (loading) return <LargeLoading></LargeLoading>;

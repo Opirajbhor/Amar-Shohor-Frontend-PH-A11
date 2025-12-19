@@ -1,5 +1,5 @@
 import React from "react";
-import Dashboard from "../pages/Dashboard/Dashboard";
+import Dashboard from "../pages/Dashboard/User_Dashboard";
 import DashboardNavbar from "../components/DashboardComponents/DashboardNavbar";
 import DashboardSidebar from "../components/DashboardComponents/DashboardSidebar";
 import { Outlet } from "react-router";
