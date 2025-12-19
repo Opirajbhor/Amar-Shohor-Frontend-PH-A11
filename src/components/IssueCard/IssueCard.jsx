@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import SearchFilter from "../SearchFilter/SearchFilter";
 import { Link } from "react-router";
 
-
 const statusColors = {
   Pending: "bg-yellow-200 text-yellow-800",
   "In Progress": "bg-blue-200 text-blue-800",
@@ -80,8 +79,8 @@ const IssueCard = ({ issues }) => {
 
               {/* View Details Button */}
               <Link
-                to={issue._id}
-                state={{issue}}
+                to={`/all-issues/${issue._id}`}
+                state={{ issue }}
                 className="mt-4 px-4 py-2 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl transition"
               >
                 View Details

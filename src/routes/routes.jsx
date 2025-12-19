@@ -14,7 +14,6 @@ import DashboardLayout from "../layouts/DashboardLayout";
 import PrivateRoute from "./PrivateRoute";
 import Report_Issue from "../pages/Dashboard/Report_Issue";
 import Profile from "../pages/Dashboard/Profile/Profile";
-import IssueDetailsPage from "../pages/IssueDetails/IssueDetailspage";
 import Boost from "../pages/Dashboard/Boost/Boost";
 import Payment_success from "../pages/Dashboard/Payment/Payment_success";
 import payment_cancel from "../pages/Dashboard/Payment/payment_cancel";
@@ -27,6 +26,7 @@ import Assign_Issues from "../pages/Dashboard/Staff_Dashboard/Assign_Issues";
 import Admin_Dashboard from "../pages/Dashboard/Admin_Dashboard/Admin_Dashboard";
 import Staff_Dashboard from "../pages/Dashboard/Staff_Dashboard/Staff_Dashboard";
 import Main_Dashboard from "../pages/Dashboard/Main_Dashboard";
+import IssueDetailspage from "../pages/IssueDetails/IssueDetailspage";
 
 const router = createBrowserRouter([
   // main routes
@@ -45,7 +45,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/all-issues/:id",
-        element: <IssueDetailsPage></IssueDetailsPage>,
+        Component: IssueDetailspage,
       },
       {
         path: "/about-us",

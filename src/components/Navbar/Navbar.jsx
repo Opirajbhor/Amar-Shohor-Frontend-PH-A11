@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, NavLink, useNavigate } from "react-router";
 import LoginButtons from "../../utils/Buttons/LoginButtons";
 import Logo from "../../utils/Logo/Logo";
 import useAuth from "../../Hooks/useAuth";
@@ -48,9 +48,9 @@ const Navbar = () => {
       {/* nav links */}
       <div className="lg:flex items-center gap-5 md:flex hidden">
         {navLinks.map((link, index) => (
-          <Link key={index} to={link.path}>
+          <NavLink key={index} to={link.path}>
             {link.name}
-          </Link>
+          </NavLink>
         ))}
       </div>
 
@@ -89,7 +89,7 @@ const Navbar = () => {
                 {user?.displayName}
               </li>
               <li>
-                <Link to='/dashboard/profile'  className="justify-between">
+                <Link to="/dashboard/profile" className="justify-between">
                   Profile
                   <span className="badge">New</span>
                 </Link>
