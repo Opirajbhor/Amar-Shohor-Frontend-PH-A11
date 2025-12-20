@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import HeroBanner from "../../components/Banner/HeroBanner";
 import IssueCard from "../../components/IssueCard/IssueCard";
 import TinyCards from "../../components/TinyCards/TinyCards";
-import { getAllIssues } from "../../ApiCalls/ApiCall";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import HowItWorks from "../../components/HowItWorks/HowItWorks";
+import CTASection from "../../components/CTAHomepage/CTASection";
+import SuccessGallery from "../../components/SuccessGallery/SuccessGallery";
 
 const HomePage = () => {
   const [issues, setIssues] = useState([]);
@@ -17,16 +19,21 @@ const HomePage = () => {
       return res.data;
     },
   });
-  console.log(issues)
 
   return (
     <div>
       <HeroBanner></HeroBanner>
-      <TinyCards></TinyCards>
       <h2 className="text-3xl text-center mt-5 font-bold mb-6">
         Reported Issues
       </h2>
       <IssueCard issues={issues}></IssueCard>
+      <div>
+        <h1 className="font-bold text-2xl text-center">Features</h1>
+        <TinyCards></TinyCards>
+      </div>
+      <HowItWorks></HowItWorks>
+      <SuccessGallery></SuccessGallery>
+      <CTASection></CTASection>
     </div>
   );
 };

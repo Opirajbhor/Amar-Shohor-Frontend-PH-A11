@@ -13,12 +13,8 @@ const DashboardNavbar = () => {
   };
 
   return (
-    <div className="flex gap-2">
-      <input
-        type="text"
-        placeholder="Search"
-        className="input input-bordered w-24 md:w-auto"
-      />
+    <div className="flex items-center gap-2">
+      <h1 className="text-gray-300 font-semibold">{user?.displayName}</h1>
       <div className="dropdown dropdown-end">
         <div
           tabIndex={0}
@@ -34,7 +30,7 @@ const DashboardNavbar = () => {
           className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
         >
           <li>
-            <Link to='/dashboard/profile' className="justify-between">
+            <Link to="/dashboard/profile" className="justify-between">
               Profile
               <span className="badge">New</span>
             </Link>

@@ -34,7 +34,6 @@ const Manage_Staff = () => {
     queryKey: ["all_staff", user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
-      setLoading(true);
       const res = await axiosSecure.get("/manage-staff");
       setLoading(false);
       return res.data;

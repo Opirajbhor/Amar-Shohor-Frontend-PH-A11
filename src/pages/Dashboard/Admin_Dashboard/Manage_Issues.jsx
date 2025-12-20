@@ -31,7 +31,6 @@ const Manage_Issues = () => {
       return res.data;
     },
   });
-  console.log(all_Issues);
   useEffect(() => {
     axiosSecure.get("/staff-list").then((res) => {
       setStaffList(res.data);
@@ -56,7 +55,6 @@ const Manage_Issues = () => {
   };
   // reject issue handle button
   const handleReject = (id) => {
-    console.log(id);
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",
@@ -115,12 +113,14 @@ const Manage_Issues = () => {
               <th>
                 <button
                   onClick={() => {
-                    console.log(issue);
                     setCurrentIssue(issue._id);
                     document.getElementById("my_modal_5").showModal();
                   }}
                   className="flex items-center gap-3 cursor-pointer "
-                  disabled={issue?.assignedTo !== "Not Assigned Yet" && issue?.status === "Rejected"}
+                  disabled={
+                    issue?.assignedTo !== "Not Assigned Yet" &&
+                    issue?.status === "Rejected"
+                  }
                 >
                   <FaChevronCircleUp /> Assign
                 </button>

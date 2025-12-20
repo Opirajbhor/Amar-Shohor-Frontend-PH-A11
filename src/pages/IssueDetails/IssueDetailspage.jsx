@@ -29,7 +29,6 @@ const IssueDetailspage = () => {
     staff = { name: "Not Assigned", dept: "Pending Assignment" },
     timeline = [],
   } = issue;
-
   // Dynamic color for severity
   const severityColors = {
     High: "bg-red-500 text-white",
@@ -90,12 +89,8 @@ const IssueDetailspage = () => {
                 <FaUser size={20} />
               </div>
               <div className="overflow-hidden">
-                <p className="text-[10px] uppercase font-bold ">
-                  Reported By
-                </p>
-                <p className="text-sm font-bold  truncate">
-                  {reporter.name}
-                </p>
+                <p className="text-[10px] uppercase font-bold ">Reported By</p>
+                <p className="text-sm font-bold  truncate">{reporter.name}</p>
                 <p className="text-xs ">{reporter.date}</p>
               </div>
             </div>
@@ -108,9 +103,7 @@ const IssueDetailspage = () => {
                 <p className="text-[10px] uppercase font-bold ">
                   Assigned Staff
                 </p>
-                <p className="text-sm font-bold  truncate">
-                  {staff.name}
-                </p>
+                <p className="text-sm font-bold  truncate">{staff.name}</p>
                 <p className="text-xs ">{staff.dept}</p>
               </div>
             </div>
