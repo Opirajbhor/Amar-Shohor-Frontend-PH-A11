@@ -1,5 +1,5 @@
-import React from "react";
-import { useLocation, useNavigate } from "react-router"; // Added useNavigate
+import React, { useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router"; // Added useNavigate
 import {
   FaMapMarkerAlt,
   FaUser,
@@ -10,31 +10,73 @@ import {
   FaArrowLeft,
 } from "react-icons/fa";
 import { MdOutlineCategory, MdTimeline } from "react-icons/md";
+import { AiOutlineLike } from "react-icons/ai";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+import Swal from "sweetalert2";
+import useAuth from "../../Hooks/useAuth";
 
 const IssueDetailspage = () => {
-  const fromLocation = useLocation();
+  const { user } = useAuth();
+
   const navigate = useNavigate();
+  const axiosSecure = useAxiosSecure();
+  const queryClient = useQueryClient();
 
-  const issue = fromLocation?.state?.issue || {};
-
+  const { id } = useParams();
+  // user Data fetch
+  const { data: currentIssue = [], refetch } = useQuery({
+    queryKey: ["user-info", id],
+    queryFn: async () => {
+      const res = await axiosSecure.get(`/all-issues/${id}`);
+      return res.data;
+    },
+  });
+  const issue = currentIssue;
   const {
     title = "Untitled Issue",
+    upVotes = [],
     description = "No description provided.",
     location = "Unknown Location",
     category = "General",
     image = "https://via.placeholder.com/800x450?text=No+Image+Available",
     status = "Pending",
-    severity = "Medium",
-    reporter = { name: "Anonymous", date: "N/A" },
-    staff = { name: "Not Assigned", dept: "Pending Assignment" },
+    reportedBy = "Anonymous",
+    assignedTo = "Anonymous",
+    createdAt = "",
     timeline = [],
   } = issue;
-  // Dynamic color for severity
-  const severityColors = {
-    High: "bg-red-500 text-white",
-    Medium: "bg-yellow-400 text-yellow-900",
-    Low: "bg-green-500 text-white",
-  };
+
+  // user Data fetch
+  const { data: userInfo = [] } = useQuery({
+    queryKey: ["user-info", issue?._id],
+    queryFn: async () => {
+      const res = await axiosSecure.get("/user-info", {
+        headers: {
+          email: reportedBy,
+        },
+      });
+      return res.data;
+    },
+  });
+
+  const { mutate: handleUpvote } = useMutation({
+    enabled: !!user?.email,
+    mutationFn: async () => {
+      const res = await axiosSecure.patch(`/issues/upvote/${issue?._id}`, {
+        email: user?.email,
+      });
+      return res.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries(["issues"]);
+      Swal.fire("Success!", "Upvote recorded.", "success");
+      refetch();
+    },
+    onError: (error) => {
+      Swal.fire("Error", "You need to Login to vote an Issue", "error");
+    },
+  });
 
   return (
     <div className="max-w-4xl mx-auto p-4  min-h-screen pb-10">
@@ -51,10 +93,15 @@ const IssueDetailspage = () => {
         <img src={image} alt={title} className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent"></div>
         <div className="absolute bottom-6 left-6 right-6">
+          {/* Priority Badge */}
           <span
-            className={` px-3 py-1 rounded-lg text-xs font-bold uppercase tracking-wider mb-2 inline-block`}
+            className={`text-xs font-bold px-2 py-1 rounded shadow-sm ${
+              issue?.isBoosted
+                ? "badge badge-soft badge-error"
+                : "badge badge-soft badge-success"
+            }`}
           >
-            {severity} Priority
+            {issue?.isBoosted ? "High" : "Normal"}
           </span>
           <h1 className="text-2xl md:text-4xl font-bold  leading-tight drop-shadow-md">
             {title}
@@ -70,9 +117,29 @@ const IssueDetailspage = () => {
         <div className="lg:col-span-2 space-y-6">
           {/* Issue Overview */}
           <div className=" p-6 rounded-2xl shadow-sm border border-slate-100">
-            <h3 className="text-lg font-bold  mb-4 flex items-center gap-2">
-              <MdOutlineCategory className="text-green-500" /> Issue Overview
-            </h3>
+            <div className=" flex items-center justify-between">
+              <h3 className="text-lg font-bold  mb-4 flex items-center gap-2">
+                <MdOutlineCategory className="text-green-500" /> Issue Overview
+              </h3>
+              {/* Upvote Group */}
+              <div className="flex items-center gap-2 group cursor-pointer">
+                <button
+                  disabled={upVotes?.includes(user?.email)}
+                  onClick={handleUpvote}
+                  className={` p-3 rounded-2xl  ${
+                    upVotes?.includes(user?.email)
+                      ? "bg-green-600 text-white cursor-default"
+                      : "bg-gray-50 dark:bg-gray-700 group-hover:bg-green-600 group-hover:text-white cursor-pointer"
+                  }
+                  `}
+                >
+                  <AiOutlineLike />
+                </button>
+                <div className="flex flex-col">
+                  <span className="text-sm font-bold  ">{upVotes?.length}</span>
+                </div>
+              </div>
+            </div>
             <div className="flex items-center  mb-4">
               <FaMapMarkerAlt className="mr-2 text-red-500" />
               <span className="text-sm font-medium">{location}</span>
@@ -86,12 +153,20 @@ const IssueDetailspage = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className=" p-5 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4">
               <div className="h-12 w-12  rounded-full flex items-center justify-center text-green-600 shrink-0">
-                <FaUser size={20} />
+                {userInfo?.photoURL ? (
+                  <div className="avatar">
+                    <div className="mask mask-squircle h-12 w-12">
+                      <img src={userInfo?.photoURL} alt={userInfo?.name} />
+                    </div>
+                  </div>
+                ) : (
+                  <FaUser size={20} />
+                )}
               </div>
               <div className="overflow-hidden">
                 <p className="text-[10px] uppercase font-bold ">Reported By</p>
-                <p className="text-sm font-bold  truncate">{reporter.name}</p>
-                <p className="text-xs ">{reporter.date}</p>
+                <p className="text-sm font-bold  truncate">{userInfo?.name}</p>
+                <p className="text-xs ">{reportedBy.date}</p>
               </div>
             </div>
 
@@ -100,11 +175,11 @@ const IssueDetailspage = () => {
                 <FaHardHat size={20} />
               </div>
               <div className="overflow-hidden">
-                <p className="text-[10px] uppercase font-bold ">
-                  Assigned Staff
+                <p className="text-[10px] uppercase font-bold ">Assigned To</p>
+                <p className="text-sm font-bold  truncate">
+                  {assignedTo?.name}
                 </p>
-                <p className="text-sm font-bold  truncate">{staff.name}</p>
-                <p className="text-xs ">{staff.dept}</p>
+                <p className="text-xs ">{issue?.assignedTo}</p>
               </div>
             </div>
           </div>

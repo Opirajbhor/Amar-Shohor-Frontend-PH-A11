@@ -106,7 +106,7 @@ const Navbar = () => {
 
         {/* hambarger start--------------------------------------------------- */}
         <div className="flex md:hidden lg:hidden">
-          <div className="dropdown ">
+          <div className="dropdown dropdown-end">
             <div
               tabIndex={0}
               role="button"
@@ -134,7 +134,7 @@ const Navbar = () => {
             >
               <div className="grid grid-cols-1 items-center gap-5">
                 {navLinks.map((link, index) => (
-                  <Link key={index} to={link.path}>
+                  <Link className="hover:bg-gray-500 rounded p-2" key={index} to={link.path}>
                     {link.name}
                   </Link>
                 ))}
