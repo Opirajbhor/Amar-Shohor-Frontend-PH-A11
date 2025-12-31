@@ -1,3 +1,4 @@
+---
 <img width="1457" height="877" alt="image" src="https://github.com/user-attachments/assets/8f932e2b-5833-4095-abd1-443197f220b6" /># 🏙️ AmarShohor: Public Infrastructure Reporting System
 
 **AmarShohor** is a centralized digital platform designed to bridge the gap between citizens and municipal authorities. By allowing residents to report infrastructure failures in real-time—from potholes to broken streetlights—the system ensures faster response times, accountability, and data-driven urban maintenance.
